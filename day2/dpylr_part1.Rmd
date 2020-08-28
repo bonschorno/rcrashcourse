@@ -1,0 +1,361 @@
+---
+title: "Dplyr - Part I"
+author: 
+  - "Colin Walder"
+date: "11.09.2020"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, message = FALSE) #rendering sharp plots / not showing messages
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+library(tidyverse)
+library(palmerpenguins)
+data(package = "palmerpenguins")
+library(knitr)
+library(kableExtra)
+```
+
+## Outline
+
+--
+
+- Introducing `dplyr` and its verbs
+
+--
+
+- `select()`: picks variables based on their names.
+
+--
+
+- `mutate()`: adds new variables that are functions of existing variables
+
+--
+
+- `rename()` & `relocate()`
+
+--
+
+- Exercises
+
+---
+
+## Dplyr - A Grammar of Data Manipulation
+
+- Grammar in this context means a framework which follows a (layered) approach to manipulate and transform your data in a structured manner (adapted from [this post](https://towardsdatascience.com/a-comprehensive-guide-to-the-grammar-of-graphics-for-effective-visualization-of-multi-dimensional-1f92b4ed4149))
+
+--
+
+-	In the words of the authors: "Set of verbs that help you solve the most common data manipulation challenges."
+
+--
+
+- `mutate()`: adds new variables that are functions of existing variables
+
+--
+
+- `select()`: picks variables based on their names.
+
+--
+
+- `filter()`: picks cases based on their values.
+
+--
+
+- `summarise()`: reduces multiple values down to a single summary.
+
+--
+
+- `arrange()`: changes the ordering of the rows.
+
+---
+
+## Select(): Subsetting columns
+
+--
+
+```{r}
+penguins %>% 
+  head(n = 3) %>% 
+  kable() %>% kable_styling(font_size = 14)
+```
+
+--
+
+```{r}
+penguins %>% 
+  select(species, island, bill_length_mm) %>% #<<
+  head(n = 3) %>% 
+  kable() %>% kable_styling(font_size = 14)
+```
+
+---
+
+#### Subsetting by column names with `:` 
+
+```{r}
+penguins %>% 
+  select(species:bill_length_mm) %>% #<<
+  head(n = 3) %>% 
+  kable() %>% kable_styling(font_size = 10)
+```
+
+--
+
+#### Subsetting by column positions
+
+```{r}
+penguins %>% 
+  select(1:3) %>% #<<
+  head(n = 3) %>% 
+  kable() %>% kable_styling(font_size = 10)
+```
+
+---
+
+#### Subsetting by column positions with `!`
+
+```{r}
+penguins %>% 
+  select(!1:3) %>% #<<
+  head(n = 3) %>% 
+  kable()
+```
+
+---
+
+#### Dropping variables
+
+```{r}
+penguins %>% 
+select(-c(year, sex, species)) %>% 
+  head(n = 1) %>% 
+  kable() %>% kable_styling(font_size = 10)
+```
+
+--
+
+```{r}
+penguins %>% 
+  select(-body_mass_g) %>% 
+  head(n = 1) %>% 
+  kable() %>% kable_styling(font_size = 10)
+```
+
+--
+
+
+### Questions?
+
+---
+
+## Useful helper functions
+
+--
+
+- `starts_with()`
+
+```{r}
+penguins %>% 
+  select(starts_with("bill")) %>% 
+  head(n = 2) %>% 
+  kable()
+```
+
+---
+
+- `ends_with()`
+
+```{r}
+penguins %>% 
+  select(ends_with("mm")) %>% 
+  head(n = 2) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+--
+
+- `contains()`
+
+```{r}
+penguins %>% 
+  select(contains("length")) %>% 
+  head(n = 2) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+---
+
+- `where()`: Selects the variables for which a function returns `TRUE.`
+
+```{r}
+penguins %>% 
+  select(where(is.factor)) %>% 
+  head(n = 2) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+--
+
+```{r}
+penguins %>% 
+  select(where(is.numeric)) %>% 
+  head(n = 2) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+--
+---
+
+## Combinations are possible
+
+```{r}
+penguins %>% 
+  select(year,
+         contains("length"),
+         island) %>% 
+  head(n = 2) %>% 
+  kable()
+```
+
+---
+
+## Mutate(): Create and modify columns
+
+--
+
+```{r}
+penguins %>% 
+  mutate(body_mass_kg = body_mass_g/1000, .keep = "used") %>%  #<<
+  head(n = 3) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+--
+
+```{r}
+penguins %>% 
+  mutate(bill_ratio = bill_length_mm/bill_depth_mm, .keep = "used") %>%   #<<
+  head(n = 1) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+---
+
+```{r}
+penguins %>% 
+  mutate(body_mass_kg = body_mass_g/1000, #<<
+         bill_square = bill_length_mm*bill_length_mm, .keep = "used") %>%   #<<
+  head(n = 3) %>% 
+  kable()
+```
+
+---
+
+## `Rename()`: Change variable names 
+
+--
+
+```{r}
+penguins %>% 
+  rename(weight = body_mass_g, #<<
+         island_name = island) %>%  #<<
+  head(n = 3) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+---
+
+### Pro tip:
+
+```{r}
+penguins %>% 
+  select(island,
+         weight = body_mass_g) %>% #<<
+  head(n = 3) %>% 
+  kable()
+```
+
+---
+
+## Relocate(): Change column order
+
+- `year` as first column
+
+```{r}
+penguins %>% 
+  relocate(year) %>% 
+  head(n = 1) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+---
+
+- `sex` after `species`
+
+```{r}
+penguins %>% 
+  relocate(sex, .after = species) %>% 
+  head(n = 1) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+- `island` before `species`
+
+```{r}
+penguins %>% 
+  relocate(island, .before = species) %>% 
+  head(n = 1) %>% 
+  kable() %>% kable_styling(font_size = 12)
+```
+
+---
+
+class: center, middle
+
+<h3>
+Questions?
+</h3>
+
+---
+
+class: center, middle
+
+<h3>
+Time to exercise!
+</h3>
+
+---
+
+## Recap & outlook
+
+--
+
+- Introduced to `dpylr`
+
+--
+
+- `select()`: picks variables based on their names.
+
+--
+
+- `mutate()`: adds new variables that are functions of existing variables
+
+--
+
+- `rename()` & `relocate()`
+
+--
+
+- Next up: `group_by()`, `summarise()`, `arrange()`

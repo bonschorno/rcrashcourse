@@ -1,0 +1,348 @@
+---
+title: "Dplyr - Part II"
+author: 
+  - "Colin Walder"
+date: "11.09.2020"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, message = FALSE) #rendering sharp plots / not showing messages
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+library(tidyverse)
+library(palmerpenguins)
+data(package = "palmerpenguins")
+library(knitr)
+library(kableExtra)
+```
+
+## Outline
+
+--
+
+- Continue working with `dplyr`
+
+--
+
+- `filter()`: subset rows using column values
+
+--
+
+- `group_by()`: group by one or more variables
+
+--
+
+- `summarise()`: summarise each group to fewer rows
+
+--
+
+- `arrange()`: arrange rows by column values
+
+--
+
+- Exercises
+
+---
+
+## Filter(): Subset rows using column values
+
+--
+
+- The following expressions are mostly used:
+
+  - `==`, `>`, ...
+
+  - `&` (and), `|` (or), `!` (is not), `xor()` (elementwise exclusive OR)
+  
+  - `is.na()`
+  
+  -  `between()` (shortcut for `x >= left` & `x <= right`)
+  
+--
+
+#### Quantitative variables
+
+```{r}
+penguins %>% 
+  filter(bill_length_mm > 40) %>% #<<
+  head(n = 2) %>% 
+  kable() %>%  kable_styling(font_size = 14)
+```
+
+---
+
+#### Qualitative variables
+
+```{r}
+penguins %>% 
+  filter(species == "Adelie") %>% #<<
+  head(n = 3) %>% 
+  kable() %>%  kable_styling(font_size = 14)
+```
+
+--
+
+#### Boolean operators
+
+```{r}
+penguins %>% 
+  filter(species == "Adelie" & island == "Dream") %>% #<< 
+  head(n = 1) %>% 
+  kable() %>%  kable_styling(font_size = 14)
+```
+
+---
+
+```{r}
+penguins %>% 
+  filter(species == "Adelie" & year != 2008) %>% #<<
+  head(n = 2) %>% 
+  kable() %>%  kable_styling(font_size = 14)
+```
+
+--
+
+- `xor()`
+
+```{r}
+penguins %>% 
+  filter(xor(species == "Adelie", flipper_length_mm > 200)) %>% #<<
+  head(n = 2) %>% 
+  kable() %>%  kable_styling(font_size = 14)
+```
+
+---
+
+- `is.na()`
+
+```{r}
+penguins %>% 
+  filter(is.na(body_mass_g)) %>% #<<
+  head(n = 2) %>% 
+  kable() %>% kable_styling(font_size = 14)
+```
+
+--
+
+- `between()`
+
+```{r}
+penguins %>% 
+  filter(between(body_mass_g, 5500, 6000)) %>% #<<
+  head(n = 2) %>% 
+  kable() %>%  kable_styling(font_size = 14)
+```
+
+
+---
+
+## Quick recap
+
+--
+
+- So far, we know how to ...
+
+--
+
+- ... subset columns with `select()`
+
+--
+
+- ... modify existing and create new columns with `mutate()`
+
+--
+
+- ... rename columns with `rename()`
+
+--
+
+- ... change the order of columns  with `relocate()`
+
+--
+
+- ... subset rows with `filter()`
+
+--
+
+- **Questions?**
+
+--
+
+- How do we work with different groups in our datasets?
+
+---
+
+## Group_by: Group by one or more variables
+
+--
+
+- Examples of groups in the `Palmerpenguins` dataset:
+
+--
+
+```{r}
+distinct(penguins, species)
+```
+
+--
+
+```{r}
+distinct(penguins, sex)
+```
+
+---
+
+- Group_by is a powerful function allowing operations per group (which is usually more interesting)
+
+--
+
+- What is the average weigth of the penguins per year?
+
+--
+
+```{r}
+penguins_weigth <- penguins %>% 
+  group_by(year) %>% #<<
+  mutate(weigth_avg = mean(body_mass_g, na.rm = TRUE))
+
+distinct(penguins_weigth, weigth_avg) %>% 
+  kable()
+```
+
+---
+
+- What is the maximum bill length of the three different penguin species?
+
+--
+
+```{r}
+penguins_bill <- penguins %>% 
+  group_by(species) %>% #<<
+  mutate(bill_length = max(bill_length_mm, na.rm = TRUE))
+
+distinct(penguins_bill, bill_length) %>% 
+  kable()
+```
+
+---
+
+- You can also group by several groups
+
+--
+
+- What is the maximum bill length of the three different penguin species on the three different islands?
+
+--
+
+```{r}
+penguins_bill_island <- penguins %>% 
+  group_by(species, island) %>% #<<
+  mutate(bill_length_max = max(bill_length_mm, na.rm = TRUE))
+
+distinct(penguins_bill_island, bill_length_max) %>% 
+  kable()
+```
+
+--
+
+- There's a tidier way to obtain the same result
+
+---
+
+## Summarise(): Summarise each group to fewer rows
+
+--
+
+- Let's look at the same examples again
+
+--
+
+- What is the average weigth of the penguins per year?
+
+--
+
+```{r}
+penguins %>% 
+  group_by(year) %>%
+  summarise(weigth_avg = mean(body_mass_g, na.rm = TRUE)) %>% #<<
+  kable()
+```
+
+---
+
+- What is the maximum bill length of the three different penguin species on the three different islands?
+
+--
+
+```{r}
+penguins %>% 
+  group_by(species, island) %>% #<<
+  summarise(bill_length_max = max(bill_length_mm, na.rm = TRUE)) %>% #<<
+  kable()
+```
+
+---
+
+- Again, combining different operations is possible
+
+--
+
+```{r}
+penguins %>% 
+  group_by(species) %>% 
+  summarise(bill_length_max = max(bill_length_mm, na.rm = TRUE), #<<
+            bill_length_min = min(bill_length_mm, na.rm = TRUE), #<<
+            average_weigth = mean(body_mass_g, na.rm = TRUE)) %>% #<<
+  kable()
+```
+
+---
+
+class: center, middle
+
+<h3>
+Questions?
+</h3>
+
+---
+
+## Recap & outlook
+
+--
+
+- Introduced to `dpylr`
+
+--
+
+- `mutate()`: adds new variables that are functions of existing variables
+
+--
+
+- `select()`: picks variables based on their names.
+
+--
+
+- `filter()`: picks cases based on their values.
+
+--
+
+- `summarise()`: reduces multiple values down to a single summary.
+
+--
+
+- `arrange()`: changes the ordering of the rows.
+
+--
+
+- Next up: Data visualisation with `ggplot2` and applying everything in a final exercise
