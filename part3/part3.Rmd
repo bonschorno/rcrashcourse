@@ -1,0 +1,246 @@
+---
+title: "Data Visualisation with tidyverse"
+author: 
+  - "Felix Zaussinger"
+date: "10.09.2020"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, message = FALSE) #rendering sharp plots / not showing messages
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+library(tidyverse)
+library(palmerpenguins)
+```
+
+
+# Motivation
+- todo
+
+---
+# ggplot2
+
+- "The grammar of graphics": 3 components make a graph
+  + dataset
+  + coordinate system
+  + geometries ("geoms"): visual marks representing data points
+
+
+![image](figures/ggplot_logic_1.png)
+
+---
+# ggplot2
+- geom's have properties which are called "aesthetics"
+  + size
+  + color
+  + x, y
+
+
+![image](figures/ggplot_logic_2.png)
+
+---
+# Visualisation
+
+![image](figures/culmen_depth.png)
+
+
+---
+# Histogram
+
+.pull-left[
+```{r, histogram1, fig.show = 'hide', warning=FALSE}
+
+ggplot(data=penguins) +
+  aes(bill_length_mm) +
+  geom_histogram() + 
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'histogram1', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Distinguishing species via colors
+
+.pull-left[
+```{r, histogram2, fig.show = 'hide', warning=FALSE}
+
+ggplot(data=penguins) +
+  aes(bill_length_mm) +
+  geom_histogram(        #<<
+    aes(fill = species)  #<<
+    ) +                  #<<
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'histogram2', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Adding kernel density and rug plots
+
+.pull-left[
+```{r, histogram3, fig.show = 'hide', warning=FALSE}
+
+ggplot(data=penguins) +
+  aes(bill_length_mm) +
+  geom_histogram(
+    aes(
+      fill = species,
+      y = ..density..       #<<
+      ),                    #<<
+    alpha=0.3               #<<
+    ) +                     #<<
+  geom_density(             #<<
+    aes(                    #<<
+      color = species)      #<<
+    ) +                     #<<
+  geom_rug(aes(color=species)) + #<<
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'histogram3', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Scatterplot
+
+.pull-left[
+```{r, scatterplot1, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, 
+      y = bill_depth_mm) +
+  geom_point(size = 2) +
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'scatterplot1', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Add regression lines
+
+.pull-left[
+```{r, scatterplot1.1, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, 
+      y = bill_depth_mm) +
+  geom_point(size = 2) +
+  geom_smooth(method="lm", 
+              color="blue") + 
+  geom_smooth(method="loess", 
+              color="orange") + 
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'scatterplot1.1', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Distinguishing species via colors
+
+.pull-left[
+```{r, scatterplot2, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, 
+      y = bill_depth_mm) +
+  geom_point(                 #<<
+    aes(color = species,      #<<
+        shape = species),     #<<
+    size = 2) +               #<<
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'scatterplot2', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Add regression lines
+- Simpson's paradox: https://en.wikipedia.org/wiki/Simpson%27s_paradox
+
+.pull-left[
+```{r, scatterplot3, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, 
+      y = bill_depth_mm) +
+  geom_point(
+    aes(color = species, 
+        shape = species),
+    size = 2
+    ) + 
+  geom_smooth(           #<<
+    method = "lm",       #<<
+    se = TRUE,           #<<
+    aes(color = species) #<<
+    ) +                  #<<
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'scatterplot3', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Boxplot
+
+.pull-left[
+```{r, boxplot, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = species, 
+      y = bill_length_mm) +
+  geom_boxplot() + 
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'boxplot', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Violinplot
+
+.pull-left[
+```{r, violinplot, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = species, 
+      y = bill_length_mm) +
+  geom_violin(alpha=.5) + 
+  geom_jitter(shape=16, position=position_jitter(0.2), color="red", alpha=0.5) + 
+  geom_boxplot(width=0.1) +
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'violinplot', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Facetting
+
+- todo
