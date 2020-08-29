@@ -11,7 +11,7 @@ Are you excited for your first semester? Have you heard that your degree will be
 | Console – assign variables and conduct simple calculations                        |
 | The script – helps you, your friends, and colleagues to understand your code      |
 | Data structure – classes, data types and indexing                                 |
-| Your first data visualisations in R – wow?                                        |
+| Your first data visualisations in R                                      |
 | Some small exercises                                                              |
 
 <br>
@@ -22,6 +22,6 @@ Are you excited for your first semester? Have you heard that your degree will be
 | Tidyverse vs Base-R – two complementing approaches                                      |
 | The pipe - %>%                                                                          |
 | Dplyr – introduction to its essential verbs                                             |
-| Ggplot2 – the WOW of visualisation!                                                     |
+| Ggplot2 –                                                     |
 | Practise, practise, practise...                                                         |
 |                                                                                         |
