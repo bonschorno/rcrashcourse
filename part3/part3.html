@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Data Visualisation with tidyverse</title>
+    <title>Data Visualisation with ggplot2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Felix Zaussinger" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -10,7 +10,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Data Visualisation with tidyverse
+# Data Visualisation with ggplot2
 ### Felix Zaussinger
 ### 10.09.2020
 
@@ -23,37 +23,103 @@ class: center, middle, inverse, title-slide
 
 
 # Motivation
-- todo
+
+.pull-left[
+&lt;img src="part3_files/figure-html/motivation1_left-1.png" width="504" /&gt;
+]
+--
+
+.pull-right[
+&lt;img src="part3_files/figure-html/motivation1_right-1.png" width="504" /&gt;
+]
+
+---
+# Motivation
+
+.pull-left[
+&lt;img src="part3_files/figure-html/motivation2_left-1.png" width="504" /&gt;
+]
+--
+
+.pull-right[
+&lt;img src="part3_files/figure-html/motivation2_right-1.png" width="504" /&gt;
+]
 
 ---
 # ggplot2
 
-- "The grammar of graphics": 3 components make a graph
+- "The grammar of graphics" -&gt; 3 components make a graph
   + dataset
   + coordinate system
   + geometries ("geoms"): visual marks representing data points
 
+--
 
 ![image](figures/ggplot_logic_1.png)
 
 ---
 # ggplot2
-- geom's have properties which are called "aesthetics"
+- geom's have properties -&gt; "aesthetics"
   + size
   + color
   + x, y
 
+--
 
 ![image](figures/ggplot_logic_2.png)
 
 ---
-# Visualisation
+# Visualisation practice
 
 ![image](figures/culmen_depth.png)
 
+(Artwork by @allison_horst,
+Data from https://github.com/allisonhorst/palmerpenguins)
 
 ---
-# Histogram
+# 1) Data
+
+.pull-left[
+
+```r
+ggplot(data=penguins)
+```
+]
+.pull-right[
+&lt;img src="part3_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+]
+
+---
+# 2) Coordinate System
+
+.pull-left[
+
+```r
+ggplot(data=penguins) +
+* aes(x=bill_length_mm)
+```
+]
+.pull-right[
+&lt;img src="part3_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+]
+
+---
+# 3) Geometry
+
+.pull-left[
+
+```r
+ggplot(data=penguins) +
+  aes(bill_length_mm) +
+* geom_histogram()
+```
+]
+.pull-right[
+&lt;img src="part3_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
+]
+
+---
+# ... labeling
 
 .pull-left[
 
@@ -61,11 +127,13 @@ class: center, middle, inverse, title-slide
 ggplot(data=penguins) +
   aes(bill_length_mm) +
   geom_histogram() + 
-  theme_xaringan()
+* labs(x="Bill length (mm)",
+*      title="Histogram") +
+* theme_xaringan()
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
 ]
 
 ---
@@ -83,20 +151,20 @@ ggplot(data=penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
 ]
 
 ---
-# Adding kernel density and rug plots
+# Adding KDE and rug plot
 
 .pull-left[
 
 ```r
 ggplot(data=penguins) +
   aes(bill_length_mm) +
-  geom_histogram(
-    aes(
-      fill = species,
+* geom_histogram(
+*   aes(
+*     fill = species,
 *     y = ..density..
 *     ),
 *   alpha=0.3
@@ -110,7 +178,7 @@ ggplot(data=penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
 ]
 
 ---
@@ -127,11 +195,11 @@ ggplot(data = penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
 ]
 
 ---
-# Add regression lines
+# Add regression line
 
 .pull-left[
 
@@ -140,19 +208,17 @@ ggplot(data = penguins) +
   aes(x = bill_length_mm, 
       y = bill_depth_mm) +
   geom_point(size = 2) +
-  geom_smooth(method="lm", 
-              color="blue") + 
-  geom_smooth(method="loess", 
-              color="orange") + 
+* geom_smooth(method="lm",
+*             color="blue") +
   theme_xaringan()
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
 ]
 
 ---
-# Distinguishing species via colors
+# Distinguish species via colors
 
 .pull-left[
 
@@ -168,7 +234,7 @@ ggplot(data = penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
 ]
 
 ---
@@ -195,7 +261,7 @@ ggplot(data = penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
 ]
 
 ---
@@ -207,12 +273,12 @@ ggplot(data = penguins) +
 ggplot(data = penguins) +
   aes(x = species, 
       y = bill_length_mm) +
-  geom_boxplot() + 
+* geom_boxplot() +
   theme_xaringan()
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
 ]
 
 ---
@@ -224,20 +290,57 @@ ggplot(data = penguins) +
 ggplot(data = penguins) +
   aes(x = species, 
       y = bill_length_mm) +
-  geom_violin(alpha=.5) + 
-  geom_jitter(shape=16, position=position_jitter(0.2), color="red", alpha=0.5) + 
-  geom_boxplot(width=0.1) +
+* geom_violin(alpha=.5) +
+* geom_jitter(
+*   shape=16,
+*   position=position_jitter(0.2),
+*   color="red",
+*   alpha=0.5
+*   ) +
+* geom_boxplot(width=0.1) +
   theme_xaringan()
 ```
 ]
 .pull-right[
-&lt;img src="part3_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+&lt;img src="part3_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
 ]
 
 ---
 # Facetting
 
-- todo
+.pull-left[
+
+```r
+penguins$year &lt;- 
+  as.factor(penguins$year)
+ggplot(data = penguins) +
+  aes(x = year, 
+      y = bill_length_mm) +
+  geom_boxplot(
+    aes(group=year, 
+        color=year), 
+    width=0.2,
+    outlier.alpha = 0.3) +
+  geom_smooth(
+    aes(x=as.integer(year), 
+        y=bill_length_mm), 
+    method="lm", 
+    color="grey") + 
+* facet_wrap(vars(species)) +
+  theme_xaringan() + 
+  scale_colour_viridis_d() + 
+  theme(axis.text.x
+        =element_blank())
+```
+]
+.pull-right[
+&lt;img src="part3_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+]
+
+---
+# Enough said...
+
+![image](figures/a-beautiful-mind-meme.jpg)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

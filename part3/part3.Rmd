@@ -1,5 +1,5 @@
 ---
-title: "Data Visualisation with tidyverse"
+title: "Data Visualisation with ggplot2"
 author: 
   - "Felix Zaussinger"
 date: "10.09.2020"
@@ -26,49 +26,160 @@ library(palmerpenguins)
 
 
 # Motivation
-- todo
+
+.pull-left[
+```{r, motivation1_left, echo = FALSE, warning=FALSE}
+boxplot(penguins$bill_length_mm)
+```
+]
+--
+
+.pull-right[
+```{r, motivation1_right, echo = FALSE, warning=FALSE}
+penguins$year <- 
+  as.factor(penguins$year)
+ggplot(data = penguins) +
+  aes(x = year, 
+      y = bill_length_mm) +
+  geom_boxplot(
+    aes(group=year, 
+        color=year), 
+    width=0.2,
+    outlier.alpha = 0.3) +
+  geom_smooth(
+    aes(x=as.integer(year), 
+        y=bill_length_mm), 
+    method="lm", 
+    color="grey") + 
+  facet_wrap(vars(species)) +
+  theme_xaringan() + 
+  scale_colour_viridis_d() + 
+  theme(axis.text.x
+        =element_blank())
+```
+]
+
+---
+# Motivation
+
+.pull-left[
+```{r, motivation2_left, echo = FALSE, warning=FALSE}
+hist(penguins$bill_length_mm, freq = FALSE)
+```
+]
+--
+
+.pull-right[
+```{r, motivation2_right, echo = FALSE, warning=FALSE}
+ggplot(data=penguins) +
+  aes(bill_length_mm) +
+  geom_histogram(         
+    aes(                  
+      fill = species,     
+      y = ..density..     
+      ),                  
+    alpha=0.3             
+    ) +                   
+  geom_density(           
+    aes(                  
+      color = species)    
+    ) +                   
+  geom_rug(aes(color=species)) +
+  theme_xaringan()
+```
+]
 
 ---
 # ggplot2
 
-- "The grammar of graphics": 3 components make a graph
+- "The grammar of graphics" -> 3 components make a graph
   + dataset
   + coordinate system
   + geometries ("geoms"): visual marks representing data points
 
+--
 
 ![image](figures/ggplot_logic_1.png)
 
 ---
 # ggplot2
-- geom's have properties which are called "aesthetics"
+- geom's have properties -> "aesthetics"
   + size
   + color
   + x, y
 
+--
 
 ![image](figures/ggplot_logic_2.png)
 
 ---
-# Visualisation
+# Visualisation practice
 
 ![image](figures/culmen_depth.png)
 
+(Artwork by @allison_horst,
+Data from https://github.com/allisonhorst/palmerpenguins)
 
 ---
-# Histogram
+# 1) Data
 
 .pull-left[
-```{r, histogram1, fig.show = 'hide', warning=FALSE}
+```{r, histogram11, fig.show = 'hide', warning=FALSE}
+
+ggplot(data=penguins)
+```
+]
+.pull-right[
+```{r ref.label = 'histogram11', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# 2) Coordinate System
+
+.pull-left[
+```{r, histogram12, fig.show = 'hide', warning=FALSE}
+
+ggplot(data=penguins) +
+  aes(x=bill_length_mm) #<<
+```
+]
+.pull-right[
+```{r ref.label = 'histogram12', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# 3) Geometry
+
+.pull-left[
+```{r, histogram13, fig.show = 'hide', warning=FALSE}
+ggplot(data=penguins) +
+  aes(bill_length_mm) +
+  geom_histogram() #<<
+```
+]
+.pull-right[
+```{r ref.label = 'histogram13', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# ... labeling
+
+.pull-left[
+```{r, histogram14, fig.show = 'hide', warning=FALSE}
 
 ggplot(data=penguins) +
   aes(bill_length_mm) +
   geom_histogram() + 
-  theme_xaringan()
+  labs(x="Bill length (mm)", #<<
+       title="Histogram") +  #<<
+  theme_xaringan()           #<<
 ```
 ]
 .pull-right[
-```{r ref.label = 'histogram1', echo = FALSE, warning=FALSE}
+```{r ref.label = 'histogram14', echo = FALSE, warning=FALSE}
 ```
 ]
 
@@ -92,16 +203,16 @@ ggplot(data=penguins) +
 ]
 
 ---
-# Adding kernel density and rug plots
+# Adding KDE and rug plot
 
 .pull-left[
 ```{r, histogram3, fig.show = 'hide', warning=FALSE}
 
 ggplot(data=penguins) +
   aes(bill_length_mm) +
-  geom_histogram(
-    aes(
-      fill = species,
+  geom_histogram(           #<<
+    aes(                    #<<
+      fill = species,       #<<
       y = ..density..       #<<
       ),                    #<<
     alpha=0.3               #<<
@@ -137,7 +248,7 @@ ggplot(data = penguins) +
 ]
 
 ---
-# Add regression lines
+# Add regression line
 
 .pull-left[
 ```{r, scatterplot1.1, fig.show = 'hide', warning=FALSE}
@@ -145,10 +256,8 @@ ggplot(data = penguins) +
   aes(x = bill_length_mm, 
       y = bill_depth_mm) +
   geom_point(size = 2) +
-  geom_smooth(method="lm", 
-              color="blue") + 
-  geom_smooth(method="loess", 
-              color="orange") + 
+  geom_smooth(method="lm",    #<<
+              color="blue") + #<<
   theme_xaringan()
 ```
 ]
@@ -158,7 +267,7 @@ ggplot(data = penguins) +
 ]
 
 ---
-# Distinguishing species via colors
+# Distinguish species via colors
 
 .pull-left[
 ```{r, scatterplot2, fig.show = 'hide', warning=FALSE}
@@ -212,7 +321,7 @@ ggplot(data = penguins) +
 ggplot(data = penguins) +
   aes(x = species, 
       y = bill_length_mm) +
-  geom_boxplot() + 
+  geom_boxplot() + #<<
   theme_xaringan()
 ```
 ]
@@ -229,9 +338,14 @@ ggplot(data = penguins) +
 ggplot(data = penguins) +
   aes(x = species, 
       y = bill_length_mm) +
-  geom_violin(alpha=.5) + 
-  geom_jitter(shape=16, position=position_jitter(0.2), color="red", alpha=0.5) + 
-  geom_boxplot(width=0.1) +
+  geom_violin(alpha=.5) + #<<
+  geom_jitter( #<<
+    shape=16, #<<
+    position=position_jitter(0.2), #<<
+    color="red", #<<
+    alpha=0.5#<<
+    ) + #<<
+  geom_boxplot(width=0.1) + #<<
   theme_xaringan()
 ```
 ]
@@ -243,4 +357,36 @@ ggplot(data = penguins) +
 ---
 # Facetting
 
-- todo
+.pull-left[
+```{r, facet_wrap, fig.show = 'hide', warning=FALSE}
+penguins$year <- 
+  as.factor(penguins$year)
+ggplot(data = penguins) +
+  aes(x = year, 
+      y = bill_length_mm) +
+  geom_boxplot(
+    aes(group=year, 
+        color=year), 
+    width=0.2,
+    outlier.alpha = 0.3) +
+  geom_smooth(
+    aes(x=as.integer(year), 
+        y=bill_length_mm), 
+    method="lm", 
+    color="grey") + 
+  facet_wrap(vars(species)) + #<<
+  theme_xaringan() + 
+  scale_colour_viridis_d() + 
+  theme(axis.text.x
+        =element_blank())
+```
+]
+.pull-right[
+```{r ref.label = 'facet_wrap', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Enough said...
+
+![image](figures/a-beautiful-mind-meme.jpg)
