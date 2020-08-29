@@ -22,6 +22,6 @@ Are you excited for your first semester? Have you heard that your degree will be
 | Tidyverse vs Base-R – two complementing approaches                                      |
 | The pipe - %>%                                                                          |
 | Dplyr – introduction to its essential verbs                                             |
-| Ggplot2 –                                                     |
+| ggplot2                                                |
 | Practise, practise, practise...                                                         |
 |                                                                                         |
