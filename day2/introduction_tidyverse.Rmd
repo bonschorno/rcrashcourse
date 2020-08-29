@@ -1,0 +1,344 @@
+---
+title: "Introduction to the Tidyverse"
+author: 
+  - "Colin Walder"
+date: "11.09.2020"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, message = FALSE) #rendering sharp plots / not showing messages
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+library(tidyverse)
+library(knitr)
+```
+
+# Today's outline
+
+--
+
+- What you have learnt so far
+
+--
+
+- Taking it a step further – introducing the Tidyverse
+
+--
+
+- Data wrangling with `dplyr`
+
+--
+
+- Data visualisation with `ggplot2`
+
+--
+
+- Final exercise
+
+--
+
+- Feedback & concluding remarks
+
+---
+
+# What you have learnt so far
+
+--
+
+-	Familiar with the RStudio interface
+
+--
+
+-	Working with scripts
+
+--
+
+-	Simple data structures 
+
+--
+
+-	First data wrangling and visualisations
+
+---
+
+# Tidy data – a philosophy of data 
+
+-	[Wickham (2014)](https://vita.had.co.nz/papers/tidy-data.pdf) aimed to standardise the data preparation process 
+
+--
+
+.center[
+<h4>
+«Each variable is a column, each observation is a row, and each type of observational unit is a table.»
+</h4>
+]
+
+--
+
+```{r}
+head(table1, n = 4) %>% 
+  kable(format = "html")
+```
+---
+
+# Another example
+
+```{r, echo=F}
+library(palmerpenguins)
+data(package = "palmerpenguins")
+```
+
+```{r}
+head(penguins, n = 5) %>% 
+  select(1:5) %>% 
+  kable(format = "html")
+```
+
+---
+
+## From tidy tools to the tidyverse
+
+--
+
+-	The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.
+
+--
+
+- Tools use tidy data both as input and output
+
+
+--
+
+-	`ggplot2`: Create graphics, based on The Grammar of Graphics
+
+--
+
+-	`dplyr`: Wrangle with data, based on a Grammar of Data Manipulation
+
+--
+
+-	Facilitate data analysis/visualisation
+
+---
+
+# The whole workflow
+
+![The Tidyverse Workflow](tidyverse_workflow.png)
+
+Source: [Teach Data Science](https://teachdatascience.com/tidyverse/)
+
+---
+
+class: center, middle
+
+<h3>
+Questions?
+</h3>
+
+---
+
+### How does Base R relate to the Tidyverse?
+
+--
+
+- Yesterday you learnt Base R commands, today Tidyverse commands
+
+--
+
+- Two different approaches to achieving the same goal
+
+--
+
+- <b> Treat them as friends! </b>
+
+--
+
+- A few examples
+
+---
+
+### Extract columns
+
+#### Base R
+
+```{r, results='hide'}
+penguins[, c("island", "year")] # by name
+penguins[, c(2, 8)]  # by column index
+```
+
+#### Tidyverse
+
+```{r, results='hide'}
+select(penguins, island, year) # by name
+select(penguins, 2, 8)  # by column index
+```
+
+---
+
+### Extract observations (rows)
+
+#### Base R
+
+```{r, results='hide'}
+# Using [,]
+penguins[penguins$body_mass_g > 3500 & penguins$island == "Torgersen",]
+```
+
+#### Tidyverse
+
+```{r, results='hide'}
+filter(penguins, body_mass_g > 3500 & island == "Torgersen")
+```
+
+---
+
+### Filter rows with conditions evaluated within groups
+
+In words: Flowers with maximum “Petal.Width” for each “Species”.
+
+#### Base R
+
+```{r, results='hide'}
+# First operate in the data.frame by group (split-apply)
+largest_bills <- by(penguins, 
+                    INDICES = penguins$species, 
+                    FUN = function(x){
+                      x[x$bill_length_mm == max(x$bill_length_mm, 
+                                                na.rm = T), ] 
+                    })
+
+# Then combine the results into a data.frame
+do.call(rbind, largest_bills)
+```
+
+#### Tidyverse
+
+```{r, results='hide'}
+penguins %>% 
+  group_by(species) %>% 
+  filter(bill_length_mm == max(bill_length_mm, na.rm = TRUE))
+```
+
+---
+
+class: center, middle
+
+<h3>
+Questions?
+</h3>
+
+---
+
+### Introducing the pipe
+
+--
+
+- The pipe operator: `%>%`
+
+--
+
+-  Takes one return value and feeds it in as an iput to another function
+
+--
+
+- Think of it as: "and then"
+
+--
+
+- Helps you to write code in a way that is easier to read and understand
+
+--
+
+```{r, results='hide'}
+penguins %>% 
+  select(species, island, sex, bill_length_mm, year) #<<
+```
+
+--
+
+```{r, results='hide'}
+penguins %>% 
+  select(species, island, sex, bill_length_mm, year) %>% 
+  filter(year == 2007) #<<
+```
+
+--
+
+```{r, results='hide'}
+penguins %>% 
+  select(species, island, sex, bill_length_mm, year) %>%
+  filter(year == 2007) %>% 
+  group_by(island) #<<
+```
+
+---
+
+```{r}
+penguins %>% 
+  select(species, island, bill_length_mm, year) %>%
+  filter(year == 2007) %>%
+  group_by(island) %>% 
+  summarise(bill_length = mean(bill_length_mm, na.rm = TRUE)) #<<
+```
+
+--
+
+#### Base R equivalent
+
+```{r}
+penguins <- penguins[,c("species", "island", "bill_length_mm", "year")]
+
+penguins <- penguins[penguins$year == 2007, ]
+
+penguins <- penguins[!(is.na(penguins$bill_length_mm)),]
+
+tapply(penguins$bill_length_mm, penguins$island, mean)
+```
+
+---
+
+class: center, middle
+
+<h3>
+Questions?
+</h3>
+
+---
+
+class: center, middle
+
+<h3>
+Time to exercise!
+</h3>
+
+---
+
+## Recap & outlook
+
+--
+
+- Introduced to the tidy philosophy
+
+--
+
+-	Tools of the Tidyverse
+
+--
+
+- Comparison of Base R and Tidyverse
+
+--
+
+- Next up: Data wrangling with `dplyr`
+
