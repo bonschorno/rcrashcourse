@@ -1,0 +1,60 @@
+---
+title: "Final exercise"
+author: 
+  - "Felix Zaussinger"
+date: "10.09.2020"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, message = FALSE) #rendering sharp plots / not showing messages
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+library(tidyverse)
+```
+
+
+
+# Motivation
+...
+
+---
+# Packages needed
+
+```{r, warning=FALSE}
+library(gsynth)
+library(haven)  # for reading dta data
+```
+
+---
+# Data sets
+```{r, warning=FALSE}
+# Lee election data
+df_lee <- read_dta("data/lee_election_data.dta")
+
+# Turnout data 
+data(gsynth)
+rm(list = c("simdata"))
+
+# Human rights data
+df_hr <- read_csv("data/human_rights_data.csv")
+```
+
+---
+# Problem sets
+...
+
+---
+# Enough said...
+
+![image](figures/a-beautiful-mind-meme.jpg)
