@@ -21,67 +21,166 @@ class: center, middle, inverse, title-slide
 
 
 
+# Our topic for the next hour
 
+"There is *strong evidence that same day and Election Day registration increases voter turnout*, but the extent of the impact is difficult to conclude. Immediately following the implementation of SDR, states usually see a boost in voter numbers. (...). Multiple studies place the *effect between an increase of 3 to 7 percent*, with an **average of a 5 percent increase**." [NCLS](https://www.ncsl.org/research/elections-and-campaigns/same-day-registration.aspx)
 
-# Motivation
-...
+&gt; TODO: add map
 
 ---
-# Packages needed
+# Election day registration
 
+- The majority of states require voters to *register two to four weeks before an election*, with cutoff dates varying from 30 to 15 days. [Wikipedia](https://en.wikipedia.org/wiki/Voter_registration_in_the_United_States#Election_Day_/_same-day)
+- Some states allow election Day voter registration (also known as EDR) which enables eligible citizens to register to vote or update their registration when they arrive to vote. 
+- We want to examine the **effect of election day registration (policy_edr) upon voter turnout** ("Wahlbeteiligung"). 
+- To do this, we will use *data on US states (abb) for each presidential election from 1920 to 2012* (year).
+
+---
+# The data set
+
+.pull-left[
 
 ```r
+# load data set
 library(gsynth)
-library(haven)  # for reading dta data
-```
-
----
-# Data sets
-
-```r
-# Lee election data
-df_lee &lt;- read_dta("data/lee_election_data.dta")
-
-# Turnout data 
 data(gsynth)
 rm(list = c("simdata"))
 
-# Human rights data
-df_hr &lt;- read_csv("data/human_rights_data.csv")
+# inspect data
+head(turnout)
+```
+
+```
+##   abb year  turnout policy_edr policy_mail_in policy_motor
+## 1  AL 1920 21.02107          0              0            0
+## 2  AL 1924 13.58233          0              0            0
+## 3  AL 1928 19.03850          0              0            0
+## 4  AL 1932 17.62002          0              0            0
+## 5  AL 1936 18.69238          0              0            0
+## 6  AL 1940 18.86406          0              0            0
+```
+]
+.pull-right[
+Reference: [Melanie Jean Springer. 2014. How the States Shaped the Nation: American Electoral Institutions and Voter Turnout, 1920-2000. University of Chicago Press.](https://rdrr.io/cran/gsynth/man/turnout.html)
+]
+
+---
+### Exercise 1
+Maine introduced election day registration in the year 1976. 
+
+1) Plot turnout in Maine over 1920 - 2012.
+
+2) Distinguish between the period before and after EDR was introduced: These are the "pre-" and "post-treatment" periods, respectively, where "treatment" refers to the introduction of EDR.
+
+3) Update your plot: we want to visualise the time EDR was introduced, the accompanying pre- and post-treatment periods and the mean values of pre- and post-treatment turnout in Maine. 
+
+4) Bonus: Did mean turnout change significantly before and after 1976?
+
+&gt; TODO: add italics and bold
+---
+## 1) Plot turnout in Maine over 1920 - 2012.
+
+.pull-left[
+
+```r
+turnout_maine &lt;- turnout %&gt;%
+  filter(abb == 'ME')
+
+ggplot(turnout_maine) +
+  aes(y=turnout, x=year) +
+  geom_line() + 
+  geom_point() + 
+  theme_xaringan()
+```
+]
+.pull-right[
+&lt;img src="02_final_exercise_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+]
+
+---
+### 2) Distinguish between pre- and post-EDR periods
+
+
+```r
+# filter and mutate
+turnout_maine &lt;- turnout_maine %&gt;%
+  mutate(treatment=ifelse(year &gt;= 1976, 1, 0))
+
+# disentangle treatment groups
+pre &lt;- turnout_maine %&gt;% 
+  filter(treatment == 0)
+post &lt;- turnout_maine %&gt;% 
+  filter(treatment == 1)
 ```
 
 ---
-# Research question
-
-What is the effect of Election Day Registration (EDR) on Voter Turnout in the U.S?
-
-- Some states allow (EDR), which enables eligible citizens to register to vote or update their registration when they arrive to vote. 
-- We want to examine the effect of election day registration (policy_edr) upon voter turnout ("Wahlbeteiligung"). 
-- To do this, we have data on US states (abb) for each presidential election from 1920 to 2012 (year).
-
----
-# Exercise 1
-Maine introduced election day registration in the year 1976. First plot turnout in Maine over 1920 - 2012, distinguishing between pre and post-"treatment".
-
----
-# Solution to Exercise 1
+### 3) Update plot
 
 .pull-left[
-&lt;img src="02_final_exercise_files/figure-html/maine-1.png" width="504" /&gt;
+
+```r
+ggplot(turnout_maine) +
+  aes(y=turnout, x=year) +
+  geom_line() + 
+  geom_point() + 
+  geom_vline(xintercept=1976) +
+  geom_segment(
+    x=first(pre$year), 
+    xend=last(pre$year), 
+    y=mean(pre$turnout), 
+    yend=mean(pre$turnout),
+    color='darkgreen') +  
+  geom_segment(
+    x=first(post$year), 
+    xend=last(post$year), 
+    y=mean(post$turnout), 
+    yend=mean(post$turnout),
+    color='darkred') +
+  labs(
+    title = "Maine",
+    x = "Year", 
+    y = "Voter turnout (%)") +
+  theme_xaringan()
+```
 ]
 .pull-right[
-The pre-treatment mean turnout rate in Maine is 57.46%, while the post-treatment mean turnout rate is 67.04%. The difference between pre- and post-treatment is 9.58%. A t-test confirms that this result is statistically significant at the 95% confidence level (p = 0.002).
+&lt;img src="02_final_exercise_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+]
+
+---
+### 4) Bonus: Significance check
+
+.pull-left[
+
+```r
+ttest &lt;- t.test(
+  x=pre$turnout, 
+  y=post$turnout,
+  mu=0,
+  conf.level = 0.05, 
+  alternative = "two.sided"
+  )
+```
+]
+.pull-right[
+The pre-treatment mean turnout rate in Maine is 57.46%, while the post-treatment mean turnout rate is 67.04%. 
+
+The difference between pre- and post-treatment is 9.58%. 
+
+A t-test confirms that this result is statistically significant at the 95% confidence level (p = 0.002).
 ]
 
 
 
 ---
-# Exercise 2
+### Exercise 2
 
 Plot turnout across all states over time, distinguishing between election day registration states and non-election day registration states, as well as when election day registration was introduced.
 
 ---
-# Solution to Exercise 2
+### Solution to Exercise 2
+
+&gt; TODO: break down into many smaller chunks that fit one slide each
 
 .pull-left[
 &lt;img src="02_final_exercise_files/figure-html/did1-1.png" width="504" /&gt;
@@ -95,25 +194,28 @@ The figure shows group-aggregated mean voter turnout over time. It can easily be
 ---
 # Exercise 3
 
-Estimate the effect of EDR on voter turnout.
+Estimate the average effect of EDR on voter turnout.
 
 ---
 # Solution to Exercise 3
 
+&gt; TODO: tidyversify
+&gt; TODO: add barplot
+
 .pull-left[
 
-```
-## [1] 5.343295
+```r
+# DID by subtracting means
+diff_treatment &lt;- 
+  mean(E1T1$turnout) - mean(E1T0$turnout)
+diff_control &lt;-
+  mean(E0T1$turnout) - mean(E0T0$turnout)
+DID &lt;- diff_treatment - diff_control
 ```
 ]
 .pull-right[
 The effect of EDR on voter turnout is 5.34%.
 ]
-
----
-# Enough said...
-
-![image](figures/a-beautiful-mind-meme.jpg)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
