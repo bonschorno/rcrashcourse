@@ -51,8 +51,168 @@ df_hr <- read_csv("data/human_rights_data.csv")
 ```
 
 ---
-# Problem sets
-...
+# Research question
+
+What is the effect of Election Day Registration (EDR) on Voter Turnout in the U.S?
+
+- Some states allow (EDR), which enables eligible citizens to register to vote or update their registration when they arrive to vote. 
+- We want to examine the effect of election day registration (policy_edr) upon voter turnout ("Wahlbeteiligung"). 
+- To do this, we have data on US states (abb) for each presidential election from 1920 to 2012 (year).
+
+---
+# Exercise 1
+Maine introduced election day registration in the year 1976. First plot turnout in Maine over 1920 - 2012, distinguishing between pre and post-"treatment".
+
+---
+# Solution to Exercise 1
+
+.pull-left[
+```{r maine, echo = FALSE, warning=FALSE}
+id_maine = 'ME'
+turnout_maine <- filter(turnout, abb == id_maine)
+
+pre <- filter(turnout_maine, year < 1976)
+post <- filter(turnout_maine, year >= 1976)
+
+ggplot(turnout_maine, aes(y=turnout, x=year)) +
+  geom_point() + 
+  geom_line() + 
+  geom_vline(xintercept=1976, linetype='dashed') + 
+  # pre-treatment mean
+  geom_segment(x=first(pre$year), xend=last(pre$year), 
+               y=mean(pre$turnout), yend=mean(pre$turnout),
+               color='darkgreen') +  
+  # post-treatment mean
+  geom_segment(x=first(post$year), xend=last(post$year), 
+               y=mean(post$turnout), yend=mean(post$turnout),
+               color='darkred') +
+  labs(title = "Maine turnout",
+       x = "Year", y = "Voter turnout (%)") +
+  theme_xaringan()
+
+# check significance
+ttest <- t.test(pre$turnout, post$turnout, mu=0, conf.level = 0.05, alternative = "two.sided")
+```
+]
+.pull-right[
+The pre-treatment mean turnout rate in Maine is `r round(mean(pre$turnout), 2) `%, while the post-treatment mean turnout rate is `r round(mean(post$turnout), 2)`%. The difference between pre- and post-treatment is `r round(mean(post$turnout) - mean(pre$turnout), 2) `%. A t-test confirms that this result is statistically significant at the 95% confidence level (p = `r round(ttest$p.value, 3)`).
+]
+
+
+
+---
+# Exercise 2
+
+Plot turnout across all states over time, distinguishing between election day registration states and non-election day registration states, as well as when election day registration was introduced.
+
+---
+# Solution to Exercise 2
+
+.pull-left[
+```{r did1, echo = FALSE, warning=FALSE}
+yrs <- unique(turnout$year) # years
+states <- unique(turnout$abb) # all states
+
+# treatment group data
+states_E1 <- unique(filter(turnout, (policy_edr == 1 & year == 1976))$abb) 
+
+# control group data
+states_E0 <- turnout %>%
+  group_by(abb) %>%
+  summarise(sum_policy_edr = sum(policy_edr)) %>% 
+  filter(sum_policy_edr == 0) %>% 
+  select(abb)
+states_E0 <- states_E0$abb
+
+# Control group elements: E0T0, E0T1
+E0 <- turnout %>% filter(abb %in% states_E0)
+E0T0 <- E0 %>% filter(year < 1976)
+E0T1 <- E0 %>% filter(year >= 1976)
+
+E0T0_mean <- E0T0 %>%
+  group_by(year) %>%
+  summarise(mean_turnout = mean(turnout))
+
+E0T1_mean <- E0T1 %>%
+  group_by(year) %>%
+  summarise(mean_turnout = mean(turnout))
+
+# Treatment group elements: E1T0, E1T1
+E1 <- turnout %>% filter(abb %in% states_E1)
+E1T0 <- E1 %>% filter(year < 1976)
+E1T1 <- E1 %>% filter(year >= 1976)
+
+E1T0_mean <- E1T0 %>%
+  group_by(year) %>%
+  summarise(mean_turnout = mean(turnout))
+
+E1T1_mean <- E1T1 %>%
+  group_by(year) %>%
+  summarise(mean_turnout = mean(turnout))
+
+# plot
+ggplot() +
+  geom_vline(xintercept=1976, linetype='dashed') + 
+  # E0T0
+  geom_point(data = E0T0_mean, aes(x=year, y=mean_turnout), colour='red') +
+  geom_line(data = E0T0_mean, aes(x=year, y=mean_turnout), colour='red') +
+  geom_segment(data = E0T0_mean, x=first(E0T0_mean$year), xend=last(E0T0_mean$year), 
+               y=mean(E0T0_mean$mean_turnout), yend=mean(E0T0_mean$mean_turnout), 
+               color='red', linetype='dashed') +
+  # E0T1
+  geom_point(data = E0T1_mean, aes(x=year, y=mean_turnout), colour='darkred') + 
+  geom_line(data = E0T1_mean, aes(x=year, y=mean_turnout), colour='darkred') + 
+  geom_segment(data = E0T1_mean, x=first(E0T1_mean$year), xend=last(E0T1_mean$year), 
+               y=mean(E0T1_mean$mean_turnout), yend=mean(E0T1_mean$mean_turnout), 
+               color='darkred', linetype='dashed') +
+  # E1T0
+  geom_point(data = E1T0_mean, aes(x=year, y=mean_turnout), colour='lightblue') + 
+  geom_line(data = E1T0_mean, aes(x=year, y=mean_turnout), colour='lightblue') + 
+  geom_segment(data = E1T0_mean, x=first(E1T0_mean$year), xend=last(E1T0_mean$year), 
+               y=mean(E1T0_mean$mean_turnout), yend=mean(E1T0_mean$mean_turnout), 
+               color='lightblue', linetype='dashed') +
+  
+  # E1T1
+  geom_point(data = E1T1_mean, aes(x=year, y=mean_turnout), colour='darkblue') + 
+  geom_line(data = E1T1_mean, aes(x=year, y=mean_turnout), colour='darkblue') + 
+  geom_segment(data = E1T1_mean, x=first(E1T1_mean$year), xend=last(E1T1_mean$year), 
+               y=mean(E1T1_mean$mean_turnout), yend=mean(E1T1_mean$mean_turnout), 
+               color='darkblue', linetype='dashed') + 
+  # labeling
+  labs(title = "Turnout across states",
+       x = "Year", y = "Mean voter turnout (%)") + 
+  theme_xaringan()
+```
+]
+.pull-right[
+Of the `r length(states)` states included in the data set, `r length(states_E1)` (`r states_E1`) have introduced election day registration in 1976. `r length(states_E0)` states have not introduced it at all throughout the 1920-2012 time period. This leaves us with `r length(states) - length(states_E0) - length(states_E1)` states that introduced election day registration in years other than 1976.
+
+The figure shows group-aggregated mean voter turnout over time. It can easily be seen that the treatment-group mean increased between pre- and post-treatment, while the control-group mean actually declined minimally.
+]
+
+---
+# Exercise 3
+
+Estimate the effect of EDR on voter turnout.
+
+---
+# Solution to Exercise 3
+
+.pull-left[
+```{r did2, echo = FALSE, warning=FALSE}
+
+# DID by subtracting means
+diff_treatment <- mean(E1T1$turnout) - mean(E1T0$turnout)
+diff_control <- mean(E0T1$turnout) - mean(E0T0$turnout)
+DID <- diff_treatment - diff_control
+
+# todo: barplot or results
+DID
+```
+]
+.pull-right[
+The effect of EDR on voter turnout is `r round(DID, 2)`%.
+]
 
 ---
 # Enough said...

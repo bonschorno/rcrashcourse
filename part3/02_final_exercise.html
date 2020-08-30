@@ -44,11 +44,71 @@ df_lee &lt;- read_dta("data/lee_election_data.dta")
 
 # Turnout data 
 data(gsynth)
-rm(list = c("simdata")) # remove other fake data (gsynth contains two data sets: turnout, simdata)
+rm(list = c("simdata"))
 
 # Human rights data
 df_hr &lt;- read_csv("data/human_rights_data.csv")
 ```
+
+---
+# Research question
+
+What is the effect of Election Day Registration (EDR) on Voter Turnout in the U.S?
+
+- Some states allow (EDR), which enables eligible citizens to register to vote or update their registration when they arrive to vote. 
+- We want to examine the effect of election day registration (policy_edr) upon voter turnout ("Wahlbeteiligung"). 
+- To do this, we have data on US states (abb) for each presidential election from 1920 to 2012 (year).
+
+---
+# Exercise 1
+Maine introduced election day registration in the year 1976. First plot turnout in Maine over 1920 - 2012, distinguishing between pre and post-"treatment".
+
+---
+# Solution to Exercise 1
+
+.pull-left[
+&lt;img src="02_final_exercise_files/figure-html/maine-1.png" width="504" /&gt;
+]
+.pull-right[
+The pre-treatment mean turnout rate in Maine is 57.46%, while the post-treatment mean turnout rate is 67.04%. The difference between pre- and post-treatment is 9.58%. A t-test confirms that this result is statistically significant at the 95% confidence level (p = 0.002).
+]
+
+
+
+---
+# Exercise 2
+
+Plot turnout across all states over time, distinguishing between election day registration states and non-election day registration states, as well as when election day registration was introduced.
+
+---
+# Solution to Exercise 2
+
+.pull-left[
+&lt;img src="02_final_exercise_files/figure-html/did1-1.png" width="504" /&gt;
+]
+.pull-right[
+Of the 47 states included in the data set, 3 (ME, MN, WI) have introduced election day registration in 1976. 38 states have not introduced it at all throughout the 1920-2012 time period. This leaves us with 6 states that introduced election day registration in years other than 1976.
+
+The figure shows group-aggregated mean voter turnout over time. It can easily be seen that the treatment-group mean increased between pre- and post-treatment, while the control-group mean actually declined minimally.
+]
+
+---
+# Exercise 3
+
+Estimate the effect of EDR on voter turnout.
+
+---
+# Solution to Exercise 3
+
+.pull-left[
+
+```
+## [1] 5.343295
+```
+]
+.pull-right[
+The effect of EDR on voter turnout is 5.34%.
+]
 
 ---
 # Enough said...
