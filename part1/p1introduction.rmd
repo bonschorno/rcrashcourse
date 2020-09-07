@@ -1,6 +1,6 @@
 ---
-title: "2020 Crashcourse with R"
-subtitle: "Introduction into the wonderful world of data analysis :')"
+title: "Crashcourse R 2020"
+subtitle: "Part 1: Introduction to Base R"
 author: 
   - "Johann S. Schuur"
 date: "09.09.2020"
@@ -13,33 +13,89 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.retina = 3, message = FALSE) #rendering sharp plots / not showing messages
-```
-
-```{r xaringan-themer, include=FALSE, warning=FALSE}
+setwd("~/Desktop/Student representation ISTP/rbootcamp/part1/")
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(kableExtra)
+library(readxl)
+library(wordcloud)
+library(tm)
+library(RColorBrewer)
+library(plotrix)
 library(xaringanthemer)
 style_mono_light(base_color = "#23395b")
 
+intro_full <- read_excel("Umfrage_intro.xlsx")
+intro <- intro_full[-1,]
+
 ```
 
-# Introduction
+# Some poll results :)
 
 ---
-# Our timetable
+# Previous R experience
 
-- 9:15 - 10:00 (warming up)
+```{r, message = FALSE, echo=FALSE}
+# Do you have any experience using R?
+# n = 26
+
+intro %>%  
+  head(n=6) %>% 
+  select(use_R, use_R_answer) %>% 
+  mutate(name = fct_reorder(use_R_answer, use_R)) %>% 
+
+  ggplot() + aes(name, use_R) + 
+  geom_bar(stat = "identity", fill = "#E69F00") + # width = 0.6, vjust = -10
+  geom_text(aes(label = use_R)) + 
+  labs(x ="", y = "") +
+  coord_flip() +
+  theme_bw() 
+```
+
+---
+# Experience with other languages
+
+```{r, message = FALSE, echo = FALSE}
+# Do you have any experience using other programming languages?
+# n = 13
+
+intro %>%  
+  head(n=6) %>% 
+  select(use_others, use_others_answer) %>% 
+  mutate(name = fct_reorder(use_others_answer, use_others)) %>% 
+
+  ggplot() + aes(name, use_others) + 
+  geom_bar(stat = "identity", fill = "#E69F00") + # , width = 0.4
+  geom_text(aes(label = use_others)) + 
+  labs(x ="", y = "") +
+  theme_bw() 
+```
+
+---
+# R Bootcamp expectations
+.center[
+![an image](expectations.png)
+]
+
+---
+# Timetable
+
+- 9:00 - 10:00 (warming up)
+  + Introduction
   + R in your study program
   + other languages
   + installing R
-  + the IDE (Integrated Development Environment)
+  + the Integrated Development Environment (IDE)
 - 10:00 - 10:15 (Virtual coffee break)
 --
 
 - 10:15 - 11:10 (Base R - Part 1)
   + variables and R as calculator
-  + data structures (vectors, matrix, lists, indexing, (class(dat)))
+  + data structures (vectors, matrix, lists, indexing)
   + packages and libraries
   + base plotting
 - 11:10 - 11:25 (Another coffee?)
@@ -48,9 +104,8 @@ style_mono_light(base_color = "#23395b")
 - 11:25 - 12:10 (Base R - Part 2)
   + writing scripts (best practices) 
   + data handling
-  + (Classes)
   + if-else statements
-- 12:10 - 12:30 (Yet, another coffee??)
+- 12:10 - 12:30 (Yet, another coffee?)
   + Writing your own code:)
 
 ---
@@ -58,44 +113,51 @@ style_mono_light(base_color = "#23395b")
 # The use of R
 
 - Master in Comparative and International Studies (MACIS)
-...
-- Master in Science, Technology, and Policy
 
---
-- data analysis and statistical computing
-  + R does just that, considered best for graphing and visualizations
+- Master in Science, Technology, and Policy (STP)
+
+---
+# The use of R
+.pull-left[
+- R is considered best for 
+  + graphing and visualizations,
+  + data analysis and statistical computing
+You will be able to visualize this after the workshop!
+]
 
 .pull-right[
 ![an image](plotpenguins.png)
 ]
-  + Python goes beyond data analysis, e.g., web-scraping
-  
-  (STP course: Big data for Public Policy)
-  
-  + both borrow packages from eachother however:)
 
+--
+- Python goes beyond data analysis
+  + developing and programming
+  + web-scraping (STP course: Big data for Public Policy)
+--
 
-source: https://www.datacamp.com/community/tutorials/r-or-python-for-data-analysis#gs.k=J5=oY
+- both borrow from eachother however :)
+
+https://www.datacamp.com/community/tutorials/r-or-python-for-data-analysis#gs.k=J5=oY
+
 ---
-
 # Installing R
 
-If you haven't done already, go to: https://courses.edx.org/courses/UTAustinX/UT.7.01x/3T2014/56c5437b88fa43cf828bff5371c6a924/
+If you haven't done already, go to: 
+https://courses.edx.org/courses/UTAustinX/UT.7.01x/3T2014/56c5437b88fa43cf828bff5371c6a924/
 
 - you need both!
   + R is the language
   + Rstudio is your IDE ("user interface")
 
 ---
-# The IDE
+# The Integrated Development Environment (IDE)
 
-![an image](iderstudio.png)
+.center[![an image](iderstudio.png)]
 
 ---
-# Virtual coffee break #1
+# Virtual coffee break (10:00 - 10:15)
 
 - Questions?
-- We continue at around 10:15
 
 ---
 # Variables and R as calculator
@@ -105,10 +167,10 @@ a <- 5
 b <- 10
 
 # performing a computation and calling the result 
-a + b # (Windows: ... , Mac: cmd + enter)
-      # for more shortcuts, see: 
-      # https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts
+a + b # (Windows: ctrl + enter, Mac: cmd + enter)
 ```
+for more keyboard shortcuts, see: 
+https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts
 
 ---
 ## Data structures
@@ -146,9 +208,10 @@ matrix_names <- c("set1", "set2")
 + vector
 + matrix
 + array
-```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
+```{r, message=FALSE}
 array1 <- array(c(A,A), dim = c(3,3,2), 
-                dimnames = list(rownames(A), colnames(A), matrix_names))
+                dimnames = list(rownames(A), 
+                                colnames(A), matrix_names))
           # takes multidimensional data objects 
 ```
 + lists
@@ -161,7 +224,7 @@ array1 <- array(c(A,A), dim = c(3,3,2),
 + matrix
 + array
 + lists
-```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
+```{r, message=FALSE}
 l1 <- list(x, A, "hello", TRUE, FALSE) # elements of different types
 ```
 + data frames
@@ -173,12 +236,13 @@ l1 <- list(x, A, "hello", TRUE, FALSE) # elements of different types
 + matrix
 + array
 + lists
-+ data frames (~array)
-  - has column names
++ data frames
+  - have column names
   - unique rownames
-  - handles numeric, factor, or character data
+  - handle numeric, factor, or character data
   - each column contains same number of entries
-![an image](dfpenguins.png)
+  
+![an image](shortdfpenguins.png)
 
 ---
 # Indexing
@@ -192,7 +256,8 @@ A[c(1,2), c(2,3)] # ... 1st and 2nd row of 2nd and 3th column
 
 array1[1,,1] # ... 1st row, all columns, 1st matrix
 ```
-  + for more indexing, see: https://data-flair.training/blogs/data-structures-in-r/
+for more indexing, see:
+https://data-flair.training/blogs/data-structures-in-r/
 
 ---
 # Packages and libraries
@@ -205,8 +270,9 @@ Packages
   + specific functions
   + documentation ("README's")
   + data-sets
-  
-- to work with them they need to be installed (do this once for each package)
+--
+
+- to work with them they need to be installed (you do this once)
 ```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3, eval=FALSE}
 #install.packages("palmerpenguins") # we will need this package later
 install.packages(c("palmerpenguins", 
@@ -214,67 +280,80 @@ install.packages(c("palmerpenguins",
                    "ggplot2")) # we will need these packages later
 ```
 
+---
+# Packages and libraries
+
 Library
-- Using a package for a new project, we need to load it (you do this every time)
-```{r}
+.pull-left[
+- using a package for a new project, we need to load it (you do this every time)
+```{r warning = FALSE, message = FALSE}
 library(palmerpenguins)
 ```
-  + unf. you cannot input a number of libraries at the same time...
+]
 
 .pull-right[
 ![an image](lter_penguins.png)
 “Artwork by @allison_horst”
 ]
-
+  + unf. you cannot input a number of libraries at the same time...
 
 ---
 # Base R plotting
-- for a quick and simple visualization of your data
+- for a quick and simple visualization of your data (today)
 - we will mainly use ggplot (tomorrow)
 
-```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
-plot(x) # plotting our vector
-theme_xaringan()
+```{r, message=FALSE, fig.align='center', fig.height=5}
+y <- c(1,5,2,7,9,8,10,4,1)
+plot(x, y) # plotting y vs x
 ```
 
-.pull-left[
-```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
-# visualizing our dataset
-
-hist(penguins$bill_length_mm, # hist(x-data, ...)
-     main = "Histogram", 
-     xlab = "bill length [mm]")
-     theme_xaringan()
-
-plot(penguins$bill_length_mm, penguins$bill_depth_mm,  # plot(x-data, y-data, ...)
-     main = "Scatterplot", 
-     xlab = "bill length [mm]", ylab = "bill depth [mm]")
-     theme_xaringan()
-     
-boxplot(bill_length_mm ~ species, penguins, # boxplot(y-data ~ x-data, dataframe, ...)
-        main = "Boxplot",
-        xlab = "bill length [mm]", ylab = "bill depth [mm]")
-        theme_xaringan()
-```
-]
-
-.pull-right[
+---
+# Base R plotting
 ![an image](culmen_depth.png)
 “Artwork by @allison_horst”
-]
 
-- For more, 
+---
+# Base R plotting
+```{r, message=FALSE, fig.align='center', fig.height=5, fig.width=5}
+# visualizing our dataset
+
+hist(penguins$bill_length_mm, 
+     # hist(x-data, ...)
+     main = "Histogram", 
+     xlab = "bill length [mm]")
+```
+
+---
+# Base R plotting
+
+```{r, message=FALSE, fig.align='center', fig.height=5, fig.width=5}
+plot(penguins$bill_length_mm, penguins$bill_depth_mm,  
+     # plot(x-data, y-data, ...)
+     main = "Scatterplot", 
+     xlab = "bill length [mm]", ylab = "bill depth [mm]")
+```
+
+---
+# Base R plotting
+
+```{r, message=FALSE, fig.align='center', fig.height=4, fig.width=4}
+boxplot(bill_length_mm ~ species, penguins, 
+        # boxplot(y-data ~ x-data, dataframe, ...)
+        main = "Boxplot",
+        xlab = "bill length [mm]", ylab = "bill depth [mm]")
+```
+- For more base R plotting, 
 see: https://bookdown.org/rdpeng/exdata/the-base-plotting-system-1.html
 
 ---
-# Writing scripts (best practices)
+# Writing scripts
 
-- set-up
-Find and set your working directory
+- Set up
+find and set your working directory
 
 ```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3, eval=FALSE}
-getwd() # tells u in which working directory you currently operate
-setwd() # let's you set your desired working directory
+getwd() # tells you in which working directory you currently operate
+setwd() # lets you set your desired working directory
 ```
 
 Example:
@@ -282,18 +361,20 @@ Example:
 setwd("~/Desktop/Student representation ISTP/rbootcamp/part1/")
 ```
 
-- Make a separate folder for each project
+- Make a separate folder for each project, that contains
   + data
   + figures
   + ...
 
-To: 
+Why? 
 - keep things tidy
 - share your work
 - have people replicate your work
 
-- BEST PRACTICE (to be like an expert)
-Create a "New project"
+---
+# Writing scripts (best practices)
+
+- Best practices (to be like an expert): Create a "New project"
   + this does all the above for you
   + allows you to work on mutiple projects simultaneously
   + DOESN'T CLUTTER YOUR WORKSPACE :)
@@ -301,36 +382,38 @@ Create a "New project"
 for more, see: 
 https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects
 
-- indenting and commenting
+---
+# Writing scripts
+
+- Indenting and commenting
   + comment where necessary, don't go overboard
   + use spaces after each input
   + object names: all lowercase, short, and yet informative
   + use indents to show that something is a part of something
   + ...
+--
 
-- tips and tricks (e.g. helpfunction "?c", create code blocks, using arrow-keys, using tab for autocompletion, using small letters,  Cmd + Shift + C to command out lines
- + type "?<function>" to access help center
+- Tips and tricks
+ + type "?nameoffunction" to access help center
  + use "tab" for autocompletion
  + use arrow-keys to navigate previous commands
- + Cmd + Shift + C to command out (several) lines
+ + Cmd/Ctrl + Shift + C to command out (several) lines
  + ...
- 
----
-# Data handling (?)
-
----
-# Classes (?)
 
 ---
 # If-else statements
 
-- let R perform an action based on if a condition is med or not
-- syntax:
+- Let R perform an action based on if a condition is met or not
+- Syntax:
   + if (this is true) {do this}
   + else if (an alternative is true) {then do this}
   + else (when none of the above is true) {then do this}
+
+---
+# If-else statements
+
 - Simplest example
-```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
+```{r warning = FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
 x
 # creating multiple condition statement
 if(10 %in% x) {
@@ -345,23 +428,26 @@ if(10 %in% x) {
 ```
 NOTE: "if" only takes ONE logical value
 
+---
+# If-else statements
 - using "ifelse", we access the entire vector, element-by-element:
-```{r, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
+```{r warning = FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
 x
 
 ifelse(x >= 6, "TRUE", "FALSE")
 ```
+
 ---
-# Yet, another coffee??
+# Yet, another coffee? (12:15-12:30)
 
 - Reconvene at 12:30
 
 ---
-# Writing your own code:)
+# Writing your own code :)
 
-- set-up a project (and check your working directory through the console)
-- write name, and date of latest access
-- for the following: comment wherever you see fit for someone else to read
+- set up a project (and check your working directory through the console)
+- write name and date of latest access
+- comment where necessary
 - assign a variable (vector, matrix)
 - access an index from the vector or matrix
 - plot a histogram from your vector
@@ -369,7 +455,7 @@ ifelse(x >= 6, "TRUE", "FALSE")
   + choose interesting variables to analyse
   + include title and lable
   + say something about what you see
-- send the code to your peers (?)
+- send the code to your peers for replication
 
 ---
 # That's all folks!

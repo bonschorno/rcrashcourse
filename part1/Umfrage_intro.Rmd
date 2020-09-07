@@ -1,0 +1,106 @@
+---
+title: "R_bootcamp_intro"
+output: html_document
+---
+
+```{r}
+getwd()
+setwd("C:/Users/mire9/polybox/Master/R Bootcamp")
+```
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(kableExtra)
+library(readxl)
+library(wordcloud)
+library(tm)
+library(RColorBrewer)
+library(plotrix)
+
+intro_full <- read_excel("Umfrage_intro.xlsx")
+intro <- intro_full[-1,]
+```
+
+```{r}
+# Do you have any experience using R?
+# n = 26
+
+intro %>%  
+  head(n=6) %>% 
+  select(use_R, use_R_answer) %>% 
+  mutate(name = fct_reorder(use_R_answer, use_R)) %>% 
+
+  ggplot() + aes(name, use_R) + 
+  geom_bar(stat = "identity", fill = "#E69F00", width = 0.6, vjust = -10  ) +
+  geom_text(aes(label = use_R)) + 
+  labs(x ="", y = "") +
+  coord_flip() +
+  theme_bw() 
+```
+
+```{r}
+# Do you have any experience using other programming languages?
+# n = 13
+
+intro %>%  
+  head(n=6) %>% 
+  select(use_others, use_others_answer) %>% 
+  mutate(name = fct_reorder(use_others_answer, use_others)) %>% 
+
+  ggplot() + aes(name, use_others) + 
+  geom_bar(stat = "identity", fill = "#E69F00", width = 0.4) +
+  geom_text(aes(label = use_others)) + 
+  labs(x ="", y = "") +
+  theme_bw() 
+```
+
+```{r}
+# What Master's degree are you enrolled in?
+deg <- intro %>% 
+  select(degree, degree_nr) %>% 
+  slice(1:2)  
+  
+ggplot() + aes(x="", y=degree_nr, fill=degree) + 
+  geom_bar(stat="identity", width = 1) +
+  coord_polar("y", start = 0) + 
+  geom_text(aes(label = paste0(degree_nr, "%")), position = position_stack(vjust = 0.5)) +
+  labs(x = "", y = "", full = NULL)
+
+pie3D(deg$degree_nr,labels = paste0(deg$degree_nr, "%"),explode = 0.1, col = c("#016450", "#67a9cf"))
+legend("topright", c("MACIS", "STP"), cex = 0.8, fill = c("#016450", "#67a9cf"))
+```
+
+
+```{r}
+# And finally, what do you expect from this R-Bootcamp?
+
+moti <- intro %>% select(motivation) 
+moti_v <- Corpus(VectorSource(moti))
+
+docs <- moti_v %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace) %>% 
+  tm_map(tolower) %>% 
+  tm_map(removePunctuation) %>% 
+  tm_map(removeWords, stopwords(""))
+
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+
+
+set.seed(6)
+wordcloud(df$word, df$freq, min.freq = 1, max.words = 40, rot.per = 0.5,
+          colors = brewer.pal(4, "Paired"))
+
+set.seed(50)
+wordcloud(df$word, df$freq, min.freq = 1, max.words = 35, rot.per = 0.35,
+          colors = brewer.pal(4, "Paired"))
+
+
+```
+

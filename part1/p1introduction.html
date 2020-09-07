@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>2020 Crashcourse with R</title>
+    <title>Crashcourse R 2020</title>
     <meta charset="utf-8" />
     <meta name="author" content="Johann S. Schuur" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -10,8 +10,8 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# 2020 Crashcourse with R
-## Introduction into the wonderful world of data analysis :’)
+# Crashcourse R 2020
+## Part 1: Introduction to Base R
 ### Johann S. Schuur
 ### 09.09.2020
 
@@ -20,24 +20,74 @@ class: center, middle, inverse, title-slide
 
 
 
-
-
-# Introduction
+# Some poll results :)
 
 ---
-# Our timetable
+# Previous R experience
 
-- 9:15 - 10:00 (warming up)
+&lt;img src="p1introduction_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+
+---
+# Experience with other languages
+
+&lt;img src="p1introduction_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+
+---
+# R Bootcamp expectations
+.center[
+![an image](expectations.png)
+]
+
+---
+# R Bootcamp expectations TODO
+
+
+```
+## Warning in tm_map.SimpleCorpus(., removeNumbers): transformation drops
+## documents
+```
+
+```
+## Warning in tm_map.SimpleCorpus(., removePunctuation): transformation drops
+## documents
+```
+
+```
+## Warning in tm_map.SimpleCorpus(., stripWhitespace): transformation drops
+## documents
+```
+
+```
+## Warning in tm_map.SimpleCorpus(., tolower): transformation drops documents
+```
+
+```
+## Warning in tm_map.SimpleCorpus(., removePunctuation): transformation drops
+## documents
+```
+
+```
+## Warning in tm_map.SimpleCorpus(., removeWords, stopwords("")):
+## transformation drops documents
+```
+
+&lt;img src="p1introduction_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;&lt;img src="p1introduction_files/figure-html/unnamed-chunk-3-2.png" width="504" /&gt;
+
+---
+# Timetable
+
+- 9:00 - 10:00 (warming up)
+  + Introduction
   + R in your study program
   + other languages
   + installing R
-  + the IDE (Integrated Development Environment)
+  + the Integrated Development Environment (IDE)
 - 10:00 - 10:15 (Virtual coffee break)
 --
 
 - 10:15 - 11:10 (Base R - Part 1)
   + variables and R as calculator
-  + data structures (vectors, matrix, lists, indexing, (class(dat)))
+  + data structures (vectors, matrix, lists, indexing)
   + packages and libraries
   + base plotting
 - 11:10 - 11:25 (Another coffee?)
@@ -46,10 +96,8 @@ class: center, middle, inverse, title-slide
 - 11:25 - 12:10 (Base R - Part 2)
   + writing scripts (best practices) 
   + data handling
-  + (Classes)
   + if-else statements
-- 12:10 - 12:30 (Yet, another coffee??)
-
+- 12:10 - 12:30 (Yet, another coffee?)
   + Writing your own code:)
 
 ---
@@ -57,43 +105,51 @@ class: center, middle, inverse, title-slide
 # The use of R
 
 - Master in Comparative and International Studies (MACIS)
-- Master in Science, Technology, and Policy
 
---
-- data analysis and statistical computing
-  + R does just that, considered best for graphing and visualizations
+- Master in Science, Technology, and Policy (STP)
+
+---
+# The use of R
+.pull-left[
+- R is considered best for 
+  + graphing and visualizations,
+  + data analysis and statistical computing
+You will be able to visualize this after the workshop!
+]
 
 .pull-right[
 ![an image](plotpenguins.png)
 ]
-  + Python goes beyond data analysis, e.g., web-scraping
-  
-  (STP course: Big data for Public Policy)
-  
-  + both borrow packages from eachother however:)
 
+--
+- Python goes beyond data analysis
+  + developing and programming
+  + web-scraping (STP course: Big data for Public Policy)
+--
 
-source: https://www.datacamp.com/community/tutorials/r-or-python-for-data-analysis#gs.k=J5=oY
+- both borrow from eachother however :)
+
+https://www.datacamp.com/community/tutorials/r-or-python-for-data-analysis#gs.k=J5=oY
+
 ---
-
 # Installing R
 
-If you haven't done already, go to: https://courses.edx.org/courses/UTAustinX/UT.7.01x/3T2014/56c5437b88fa43cf828bff5371c6a924/
+If you haven't done already, go to: 
+https://courses.edx.org/courses/UTAustinX/UT.7.01x/3T2014/56c5437b88fa43cf828bff5371c6a924/
 
 - you need both!
   + R is the language
   + Rstudio is your IDE ("user interface")
 
 ---
-# The IDE
+# The Integrated Development Environment (IDE)
 
-![an image](iderstudio.png)
+.center[![an image](iderstudio.png)]
 
 ---
-# Virtual coffee break #1
+# Virtual coffee break (10:00 - 10:15)
 
 - Questions?
-- We continue at around 10:15
 
 ---
 # Variables and R as calculator
@@ -104,17 +160,14 @@ a &lt;- 5
 b &lt;- 10
 
 # performing a computation and calling the result 
-a + b # (Windows: ... , Mac: cmd + enter)
+a + b # (Windows: ctrl + enter, Mac: cmd + enter)
 ```
 
 ```
 ## [1] 15
 ```
-
-```r
-      # for more shortcuts, see: 
-      # https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts
-```
+for more keyboard shortcuts, see: 
+https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts
 
 ---
 ## Data structures
@@ -157,7 +210,8 @@ matrix_names &lt;- c("set1", "set2")
 
 ```r
 array1 &lt;- array(c(A,A), dim = c(3,3,2), 
-                dimnames = list(rownames(A), colnames(A), matrix_names))
+                dimnames = list(rownames(A), 
+                                colnames(A), matrix_names))
           # takes multidimensional data objects 
 ```
 + lists
@@ -183,12 +237,13 @@ l1 &lt;- list(x, A, "hello", TRUE, FALSE) # elements of different types
 + matrix
 + array
 + lists
-+ data frames (~array)
-  - has column names
++ data frames
+  - have column names
   - unique rownames
-  - handles numeric, factor, or character data
+  - handle numeric, factor, or character data
   - each column contains same number of entries
-![an image](dfpenguins.png)
+  
+![an image](shortdfpenguins.png)
 
 ---
 # Indexing
@@ -228,7 +283,8 @@ array1[1,,1] # ... 1st row, all columns, 1st matrix
 ## species     sex    year 
 ##       1       4       7
 ```
-  + for more indexing, see: https://data-flair.training/blogs/data-structures-in-r/
+for more indexing, see:
+https://data-flair.training/blogs/data-structures-in-r/
 
 ---
 # Packages and libraries
@@ -241,8 +297,9 @@ Packages
   + specific functions
   + documentation ("README's")
   + data-sets
-  
-- to work with them they need to be installed (do this once for each package)
+--
+
+- to work with them they need to be installed (you do this once)
 
 ```r
 #install.packages("palmerpenguins") # we will need this package later
@@ -251,628 +308,94 @@ install.packages(c("palmerpenguins",
                    "ggplot2")) # we will need these packages later
 ```
 
+---
+# Packages and libraries
+
 Library
-- Using a package for a new project, we need to load it (you do this every time)
+.pull-left[
+- using a package for a new project, we need to load it (you do this every time)
 
 ```r
 library(palmerpenguins)
 ```
-
-```
-## Warning: package 'palmerpenguins' was built under R version 3.6.2
-```
-  + unf. you cannot input a number of libraries at the same time...
+]
 
 .pull-right[
 ![an image](lter_penguins.png)
 “Artwork by @allison_horst”
 ]
-
+  + unf. you cannot input a number of libraries at the same time...
 
 ---
 # Base R plotting
-- for a quick and simple visualization of your data
+- for a quick and simple visualization of your data (today)
 - we will mainly use ggplot (tomorrow)
 
 
 ```r
-plot(x) # plotting our vector
-theme_xaringan()
+y &lt;- c(1,5,2,7,9,8,10,4,1)
+plot(x, y) # plotting y vs x
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-9-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="p1introduction_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
-```
-## List of 14
-##  $ line               :List of 6
-##   ..$ colour       : chr "#424E62"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ rect               :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ text               :List of 11
-##   ..$ family       : chr "Noto Sans"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#2D3B51"
-##   ..$ size         : num 25
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ title              :List of 11
-##   ..$ family       : chr "Cabin"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#23395b"
-##   ..$ size         : num 28
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.title         :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : num 22.4
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.text          :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#6C7585"
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.ticks         :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ legend.key         :List of 5
-##   ..$ fill         : chr "transparent"
-##   ..$ colour       : logi NA
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.background   :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.grid.major   :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ panel.grid.minor   :List of 6
-##   ..$ colour       : chr "#D4D7DD"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ plot.background    :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ plot.caption       :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#576273"
-##   ..$ size         : num 20
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ plot.title.position: chr "plot"
-##  - attr(*, "class")= chr [1:2] "theme" "gg"
-##  - attr(*, "complete")= logi FALSE
-##  - attr(*, "validate")= logi TRUE
-```
+---
+# Base R plotting
+![an image](culmen_depth.png)
+“Artwork by @allison_horst”
 
-.pull-left[
+---
+# Base R plotting
 
 ```r
 # visualizing our dataset
 
-hist(penguins$bill_length_mm, # hist(x-data, ...)
+hist(penguins$bill_length_mm, 
+     # hist(x-data, ...)
      main = "Histogram", 
      xlab = "bill length [mm]")
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-10-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="p1introduction_files/figure-html/unnamed-chunk-13-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+# Base R plotting
+
 
 ```r
-     theme_xaringan()
-```
-
-```
-## List of 14
-##  $ line               :List of 6
-##   ..$ colour       : chr "#424E62"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ rect               :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ text               :List of 11
-##   ..$ family       : chr "Noto Sans"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#2D3B51"
-##   ..$ size         : num 25
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ title              :List of 11
-##   ..$ family       : chr "Cabin"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#23395b"
-##   ..$ size         : num 28
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.title         :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : num 22.4
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.text          :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#6C7585"
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.ticks         :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ legend.key         :List of 5
-##   ..$ fill         : chr "transparent"
-##   ..$ colour       : logi NA
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.background   :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.grid.major   :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ panel.grid.minor   :List of 6
-##   ..$ colour       : chr "#D4D7DD"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ plot.background    :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ plot.caption       :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#576273"
-##   ..$ size         : num 20
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ plot.title.position: chr "plot"
-##  - attr(*, "class")= chr [1:2] "theme" "gg"
-##  - attr(*, "complete")= logi FALSE
-##  - attr(*, "validate")= logi TRUE
-```
-
-```r
-plot(penguins$bill_length_mm, penguins$bill_depth_mm,  # plot(x-data, y-data, ...)
+plot(penguins$bill_length_mm, penguins$bill_depth_mm,  
+     # plot(x-data, y-data, ...)
      main = "Scatterplot", 
      xlab = "bill length [mm]", ylab = "bill depth [mm]")
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-10-2.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="p1introduction_files/figure-html/unnamed-chunk-14-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+# Base R plotting
+
 
 ```r
-     theme_xaringan()
-```
-
-```
-## List of 14
-##  $ line               :List of 6
-##   ..$ colour       : chr "#424E62"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ rect               :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ text               :List of 11
-##   ..$ family       : chr "Noto Sans"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#2D3B51"
-##   ..$ size         : num 25
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ title              :List of 11
-##   ..$ family       : chr "Cabin"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#23395b"
-##   ..$ size         : num 28
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.title         :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : num 22.4
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.text          :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#6C7585"
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.ticks         :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ legend.key         :List of 5
-##   ..$ fill         : chr "transparent"
-##   ..$ colour       : logi NA
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.background   :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.grid.major   :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ panel.grid.minor   :List of 6
-##   ..$ colour       : chr "#D4D7DD"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ plot.background    :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ plot.caption       :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#576273"
-##   ..$ size         : num 20
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ plot.title.position: chr "plot"
-##  - attr(*, "class")= chr [1:2] "theme" "gg"
-##  - attr(*, "complete")= logi FALSE
-##  - attr(*, "validate")= logi TRUE
-```
-
-```r
-boxplot(bill_length_mm ~ species, penguins, # boxplot(y-data ~ x-data, dataframe, ...)
+boxplot(bill_length_mm ~ species, penguins, 
+        # boxplot(y-data ~ x-data, dataframe, ...)
         main = "Boxplot",
         xlab = "bill length [mm]", ylab = "bill depth [mm]")
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-10-3.png" width="216" style="display: block; margin: auto;" /&gt;
-
-```r
-        theme_xaringan()
-```
-
-```
-## List of 14
-##  $ line               :List of 6
-##   ..$ colour       : chr "#424E62"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ rect               :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ text               :List of 11
-##   ..$ family       : chr "Noto Sans"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#2D3B51"
-##   ..$ size         : num 25
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ title              :List of 11
-##   ..$ family       : chr "Cabin"
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#23395b"
-##   ..$ size         : num 28
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.title         :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : num 22.4
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.text          :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#6C7585"
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ axis.ticks         :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ legend.key         :List of 5
-##   ..$ fill         : chr "transparent"
-##   ..$ colour       : logi NA
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.background   :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ panel.grid.major   :List of 6
-##   ..$ colour       : chr "#BFC4CB"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ panel.grid.minor   :List of 6
-##   ..$ colour       : chr "#D4D7DD"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-##  $ plot.background    :List of 5
-##   ..$ fill         : chr "#E9EBEE"
-##   ..$ colour       : chr "#E9EBEE"
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-##  $ plot.caption       :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr "#576273"
-##   ..$ size         : num 20
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi FALSE
-##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-##  $ plot.title.position: chr "plot"
-##  - attr(*, "class")= chr [1:2] "theme" "gg"
-##  - attr(*, "complete")= logi FALSE
-##  - attr(*, "validate")= logi TRUE
-```
-]
-
-.pull-right[
-![an image](culmen_depth.png)
-“Artwork by @allison_horst”
-]
-
-- For more, 
+&lt;img src="p1introduction_files/figure-html/unnamed-chunk-15-1.png" width="288" style="display: block; margin: auto;" /&gt;
+- For more base R plotting, 
 see: https://bookdown.org/rdpeng/exdata/the-base-plotting-system-1.html
 
 ---
-# Writing scripts (best practices)
+# Writing scripts
 
-- set-up
-Find and set your working directory
+- Set up
+find and set your working directory
 
 
 ```r
-getwd() # tells u in which working directory you currently operate
-setwd() # let's you set your desired working directory
+getwd() # tells you in which working directory you currently operate
+setwd() # lets you set your desired working directory
 ```
 
 Example:
@@ -881,18 +404,20 @@ Example:
 setwd("~/Desktop/Student representation ISTP/rbootcamp/part1/")
 ```
 
-- Make a separate folder for each project
+- Make a separate folder for each project, that contains
   + data
   + figures
   + ...
 
-To: 
+Why? 
 - keep things tidy
 - share your work
 - have people replicate your work
 
-- BEST PRACTICE (to be like an expert)
-Create a "New project"
+---
+# Writing scripts (best practices)
+
+- Best practices (to be like an expert): Create a "New project"
   + this does all the above for you
   + allows you to work on mutiple projects simultaneously
   + DOESN'T CLUTTER YOUR WORKSPACE :)
@@ -900,34 +425,36 @@ Create a "New project"
 for more, see: 
 https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects
 
-- indenting and commenting
+---
+# Writing scripts
+
+- Indenting and commenting
   + comment where necessary, don't go overboard
   + use spaces after each input
   + object names: all lowercase, short, and yet informative
   + use indents to show that something is a part of something
   + ...
+--
 
-- tips and tricks (e.g. helpfunction "?c", create code blocks, using arrow-keys, using tab for autocompletion, using small letters,  Cmd + Shift + C to command out lines
- + type "?&lt;function&gt;" to access help center
+- Tips and tricks
+ + type "?nameoffunction" to access help center
  + use "tab" for autocompletion
  + use arrow-keys to navigate previous commands
- + Cmd + Shift + C to command out (several) lines
+ + Cmd/Ctrl + Shift + C to command out (several) lines
  + ...
- 
----
-# Data handling (?)
-
----
-# Classes (?)
 
 ---
 # If-else statements
 
-- let R perform an action based on if a condition is med or not
-- syntax:
+- Let R perform an action based on if a condition is met or not
+- Syntax:
   + if (this is true) {do this}
   + else if (an alternative is true) {then do this}
   + else (when none of the above is true) {then do this}
+
+---
+# If-else statements
+
 - Simplest example
 
 ```r
@@ -952,15 +479,12 @@ if(10 %in% x) {
 ```
 
 ```
-## Warning in if (x &lt; 10 &amp; x &gt;= 0) {: the condition has length &gt; 1 and only
-## the first element will be used
-```
-
-```
 ## [1] "x is a number equal or greater than 0 and smaller than 10"
 ```
 NOTE: "if" only takes ONE logical value
 
+---
+# If-else statements
 - using "ifelse", we access the entire vector, element-by-element:
 
 ```r
@@ -978,17 +502,18 @@ ifelse(x &gt;= 6, "TRUE", "FALSE")
 ```
 ## [1] "FALSE" "FALSE" "FALSE" "FALSE" "FALSE" "TRUE"  "TRUE"  "TRUE"  "TRUE"
 ```
+
 ---
-# Yet, another coffee??
+# Yet, another coffee? (12:15-12:30)
 
 - Reconvene at 12:30
 
 ---
-# Writing your own code:)
+# Writing your own code :)
 
-- set-up a project (and check your working directory through the console)
-- write name, and date of latest access
-- for the following: comment wherever you see fit for someone else to read
+- set up a project (and check your working directory through the console)
+- write name and date of latest access
+- comment where necessary
 - assign a variable (vector, matrix)
 - access an index from the vector or matrix
 - plot a histogram from your vector
@@ -996,7 +521,7 @@ ifelse(x &gt;= 6, "TRUE", "FALSE")
   + choose interesting variables to analyse
   + include title and lable
   + say something about what you see
-- send the code to your peers (?)
+- send the code to your peers for replication
 
 ---
 # That's all folks!
