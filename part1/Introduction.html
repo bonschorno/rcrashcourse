@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Crashcourse R 2020</title>
+    <title>Introduction to Base R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Johann S. Schuur" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -10,8 +10,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Crashcourse R 2020
-## Part 1: Introduction to Base R
+# Introduction to Base R
 ### Johann S. Schuur
 ### 09.09.2020
 
@@ -25,53 +24,18 @@ class: center, middle, inverse, title-slide
 ---
 # Previous R experience
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+&lt;img src="Introduction_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
 
 ---
 # Experience with other languages
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+&lt;img src="Introduction_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
 
 ---
 # R Bootcamp expectations
 .center[
 ![an image](expectations.png)
 ]
-
----
-# R Bootcamp expectations TODO
-
-
-```
-## Warning in tm_map.SimpleCorpus(., removeNumbers): transformation drops
-## documents
-```
-
-```
-## Warning in tm_map.SimpleCorpus(., removePunctuation): transformation drops
-## documents
-```
-
-```
-## Warning in tm_map.SimpleCorpus(., stripWhitespace): transformation drops
-## documents
-```
-
-```
-## Warning in tm_map.SimpleCorpus(., tolower): transformation drops documents
-```
-
-```
-## Warning in tm_map.SimpleCorpus(., removePunctuation): transformation drops
-## documents
-```
-
-```
-## Warning in tm_map.SimpleCorpus(., removeWords, stopwords("")):
-## transformation drops documents
-```
-
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;&lt;img src="p1introduction_files/figure-html/unnamed-chunk-3-2.png" width="504" /&gt;
 
 ---
 # Timetable
@@ -337,7 +301,7 @@ y &lt;- c(1,5,2,7,9,8,10,4,1)
 plot(x, y) # plotting y vs x
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="Introduction_files/figure-html/unnamed-chunk-11-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 # Base R plotting
@@ -356,7 +320,7 @@ hist(penguins$bill_length_mm,
      xlab = "bill length [mm]")
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-13-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="Introduction_files/figure-html/unnamed-chunk-12-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 ---
 # Base R plotting
@@ -369,7 +333,7 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm,
      xlab = "bill length [mm]", ylab = "bill depth [mm]")
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-14-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="Introduction_files/figure-html/unnamed-chunk-13-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 ---
 # Base R plotting
@@ -382,7 +346,7 @@ boxplot(bill_length_mm ~ species, penguins,
         xlab = "bill length [mm]", ylab = "bill depth [mm]")
 ```
 
-&lt;img src="p1introduction_files/figure-html/unnamed-chunk-15-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="Introduction_files/figure-html/unnamed-chunk-14-1.png" width="288" style="display: block; margin: auto;" /&gt;
 - For more base R plotting, 
 see: https://bookdown.org/rdpeng/exdata/the-base-plotting-system-1.html
 
@@ -509,10 +473,10 @@ ifelse(x &gt;= 6, "TRUE", "FALSE")
 - Reconvene at 12:30
 
 ---
-# Writing your own code :)
+# Exercises
 
 - set up a project (and check your working directory through the console)
-- write name and date of latest access
+- write name of author and date of latest access
 - comment where necessary
 - assign a variable (vector, matrix)
 - access an index from the vector or matrix

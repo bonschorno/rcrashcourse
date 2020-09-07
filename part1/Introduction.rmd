@@ -1,6 +1,5 @@
 ---
-title: "Crashcourse R 2020"
-subtitle: "Part 1: Introduction to Base R"
+title: "Introduction to Base R"
 author: 
   - "Johann S. Schuur"
 date: "09.09.2020"
@@ -443,10 +442,10 @@ ifelse(x >= 6, "TRUE", "FALSE")
 - Reconvene at 12:30
 
 ---
-# Writing your own code :)
+# Exercises
 
 - set up a project (and check your working directory through the console)
-- write name and date of latest access
+- write name of author and date of latest access
 - comment where necessary
 - assign a variable (vector, matrix)
 - access an index from the vector or matrix
