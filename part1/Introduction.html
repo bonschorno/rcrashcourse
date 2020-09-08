@@ -34,12 +34,11 @@ class: center, middle, inverse, title-slide
 ---
 # R Bootcamp expectations
 .center[
-![an image](expectations.png)
+![an image](expectations.jpeg)
 ]
 
 ---
-# Timetable
-
+# Outlook
 - 9:00 - 10:00 (warming up)
   + Introduction
   + R in your study program
@@ -54,16 +53,15 @@ class: center, middle, inverse, title-slide
   + data structures (vectors, matrix, lists, indexing)
   + packages and libraries
   + base plotting
-- 11:10 - 11:25 (Another coffee?)
+- 11:10 - 11:25 (Virtual coffee break)
 --
 
 - 11:25 - 12:10 (Base R - Part 2)
   + writing scripts (best practices) 
   + data handling
   + if-else statements
-- 12:10 - 12:30 (Yet, another coffee?)
-  + Writing your own code:)
-
+- 12:10 - 12:30 (Virtual coffee break)
+  + Time to exercise
 ---
 
 # The use of R
@@ -78,7 +76,6 @@ class: center, middle, inverse, title-slide
 - R is considered best for 
   + graphing and visualizations,
   + data analysis and statistical computing
-You will be able to visualize this after the workshop!
 ]
 
 .pull-right[
@@ -113,7 +110,13 @@ https://courses.edx.org/courses/UTAustinX/UT.7.01x/3T2014/56c5437b88fa43cf828bff
 ---
 # Virtual coffee break (10:00 - 10:15)
 
-- Questions?
+Recap
+- R in your study program
+- other languages
+- installing R
+- the Integrated Development Environment (IDE)
+
+Questions in break-out sessions
 
 ---
 # Variables and R as calculator
@@ -173,15 +176,14 @@ matrix_names &lt;- c("set1", "set2")
 + array
 
 ```r
-array1 &lt;- array(c(A,A), dim = c(3,3,2), 
-                dimnames = list(rownames(A), 
-                                colnames(A), matrix_names))
-          # takes multidimensional data objects 
+array1 &lt;- array(c(A,A), dim = c(3,3,2), dimnames = list(rownames(A), 
+                colnames(A), matrix_names)) 
+                # takes multidimensional data objects 
 ```
 + lists
 + data frames
 
---- 
+---
 ## Data structures
 
 + vector
@@ -193,7 +195,6 @@ array1 &lt;- array(c(A,A), dim = c(3,3,2),
 l1 &lt;- list(x, A, "hello", TRUE, FALSE) # elements of different types
 ```
 + data frames
-
 ---
 ## Data structures
 
@@ -208,7 +209,6 @@ l1 &lt;- list(x, A, "hello", TRUE, FALSE) # elements of different types
   - each column contains same number of entries
   
 ![an image](shortdfpenguins.png)
-
 ---
 # Indexing
 
@@ -288,7 +288,7 @@ library(palmerpenguins)
 ![an image](lter_penguins.png)
 “Artwork by @allison_horst”
 ]
-  + unf. you cannot input a number of libraries at the same time...
+  + you cannot input a number of libraries at the same time
 
 ---
 # Base R plotting
@@ -305,15 +305,16 @@ plot(x, y) # plotting y vs x
 
 ---
 # Base R plotting
+.center[
 ![an image](culmen_depth.png)
-“Artwork by @allison_horst”
+]
+"Artwork by @allison_horst"
 
 ---
 # Base R plotting
 
 ```r
 # visualizing our dataset
-
 hist(penguins$bill_length_mm, 
      # hist(x-data, ...)
      main = "Histogram", 
@@ -351,6 +352,17 @@ boxplot(bill_length_mm ~ species, penguins,
 see: https://bookdown.org/rdpeng/exdata/the-base-plotting-system-1.html
 
 ---
+# Virtual coffee break (11:10 - 11:25)
+
+Recap
+- variables and R as calculator
+- data structures (vectors, matrix, lists, indexing)
+- packages and libraries
+- base plotting
+
+Questions in break-out sessions
+
+---
 # Writing scripts
 
 - Set up
@@ -381,7 +393,7 @@ Why?
 ---
 # Writing scripts (best practices)
 
-- Best practices (to be like an expert): Create a "New project"
+- Best practices: Create a "New project"
   + this does all the above for you
   + allows you to work on mutiple projects simultaneously
   + DOESN'T CLUTTER YOUR WORKSPACE :)
@@ -401,6 +413,7 @@ https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects
 --
 
 - Tips and tricks
+ + Alt/Option + -	for assignment operator
  + type "?nameoffunction" to access help center
  + use "tab" for autocompletion
  + use arrow-keys to navigate previous commands
@@ -468,9 +481,14 @@ ifelse(x &gt;= 6, "TRUE", "FALSE")
 ```
 
 ---
-# Yet, another coffee? (12:15-12:30)
+# Yet, another coffee break? (12:15-12:30)
 
-- Reconvene at 12:30
+Recap
+- writing scripts
+- data handling
+- if-else statements
+
+Questions in break-out sessions
 
 ---
 # Exercises
@@ -478,19 +496,19 @@ ifelse(x &gt;= 6, "TRUE", "FALSE")
 - set up a project (and check your working directory through the console)
 - write name of author and date of latest access
 - comment where necessary
-- assign a variable (vector, matrix)
-- access an index from the vector or matrix
+- assign a variable (vector and matrix)
+- access an index from the vector amd matrix
 - plot a histogram from your vector
 - plot a boxplot and histogram from the penguin data
   + choose interesting variables to analyse
-  + include title and lable
+  + include title and axis-lables
   + say something about what you see
 - send the code to your peers for replication
 
 ---
 # That's all folks!
 
-- Any burning questions?
+Any burning questions?
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
