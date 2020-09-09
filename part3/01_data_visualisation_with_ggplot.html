@@ -21,19 +21,6 @@ class: center, middle, inverse, title-slide
 
 
 
-
-# Motivation
-
-.pull-left[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/motivation1_left-1.png" width="504" /&gt;
-]
---
-
-.pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/motivation1_right-1.png" width="504" /&gt;
-]
-
----
 # Motivation
 
 .pull-left[
@@ -46,12 +33,33 @@ class: center, middle, inverse, title-slide
 ]
 
 ---
+# Motivation
+
+.pull-left[
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/motivation1_left-1.png" width="504" /&gt;
+]
+--
+
+.pull-right[
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/motivation1_right-1.png" width="504" /&gt;
+]
+
+---
 # ggplot2
 
-- "The grammar of graphics" -&gt; 3 components make a graph
-  + dataset
-  + coordinate system
-  + geometries ("geoms"): visual marks representing data points
+"The grammar of graphics" -&gt; 3 components make a graph
+
+--
+
+- data
+  
+--
+
+- coordinate system
+  
+--
+
+- geometries ("geoms"): visual marks representing data points
 
 --
 
@@ -59,10 +67,19 @@ class: center, middle, inverse, title-slide
 
 ---
 # ggplot2
-- geom's have properties -&gt; "aesthetics"
-  + size
-  + color
-  + x, y
+geom's have properties -&gt; "aesthetics"
+
+--
+
+- x, y
+
+--
+
+- color
+
+--
+
+- size
 
 --
 
@@ -155,31 +172,33 @@ ggplot(data=penguins) +
 ]
 
 ---
-# Adding KDE and rug plot
+# Recap 1
 
-.pull-left[
+- a trio of __data__ + __coordinate system__ + __geometries__ makes a ggplot
 
-```r
-ggplot(data=penguins) +
-  aes(bill_length_mm) +
-* geom_histogram(
-*   aes(
-*     fill = species,
-*     y = ..density..
-*     ),
-*   alpha=0.3
-*   ) +
-* geom_density(
-*   aes(
-*     color = species)
-*   ) +
-* geom_rug(aes(color=species)) +
-  theme_xaringan()
-```
-]
-.pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
-]
+--
+
+- certain __properties__ can be assigned to __geometries__ via __aes()__
+
+--
+
+- we can create plots through applying a __logical sequence of commands connected by *+* signs__
+
+--
+
+- Histograms are created with via *geom_histogram*
+
+--
+
+- Labels can be assigned with via *labs*
+
+--
+
+- within *aes()*, the *fill* property can be used to __distinguish different categories in your data set__
+
+--
+
+# Any questions so far?
 
 ---
 # Scatterplot
@@ -195,11 +214,11 @@ ggplot(data = penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
 ]
 
 ---
-# Add regression line
+# Add a linear regression line
 
 .pull-left[
 
@@ -214,11 +233,11 @@ ggplot(data = penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
 ]
 
 ---
-# Distinguish species via colors
+# Distinguish species with colors
 
 .pull-left[
 
@@ -230,16 +249,17 @@ ggplot(data = penguins) +
 *   aes(color = species,
 *       shape = species),
 *   size = 2) +
+  geom_smooth(method="lm",   
+              color="blue") +
   theme_xaringan()
 ```
 ]
 .pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
 ]
 
 ---
-# Add regression lines
-- Simpson's paradox: https://en.wikipedia.org/wiki/Simpson%27s_paradox
+# Category-specific regression lines
 
 .pull-left[
 
@@ -261,11 +281,40 @@ ggplot(data = penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
 ]
 
+--
+
+Simpson's paradox: https://en.wikipedia.org/wiki/Simpson%27s_paradox
+
 ---
-# Boxplot
+# Recap 2
+
+- __Scatterplots__ are created via *geom_point*
+
+--
+
+- __Regression lines__ can be fit to the data points via *geom_smooth*. We learned about the *'lm'* method, but many other (non-linear) methods are available.
+
+--
+
+- Within *aes()*, the *color* and *shape* properties can be used to distinguish categories in your data
+
+--
+
+- __Category-specific regression lines__ can be fitted by specifying the category in *aes()*
+
+--
+
+- A bit off-topic, but important: Unraveling __categorical clusters__ in your data is crucial for gaining valid insights (*Simpson's paradox*)
+
+--
+
+# Questions?
+
+---
+# Boxplot: x = species
 
 .pull-left[
 
@@ -278,41 +327,39 @@ ggplot(data = penguins) +
 ```
 ]
 .pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
 ]
 
 ---
-# Violinplot
+# Boxplot: x = year
 
 .pull-left[
 
 ```r
 ggplot(data = penguins) +
-  aes(x = species, 
+* aes(x = year,
       y = bill_length_mm) +
-* geom_violin(alpha=.5) +
-* geom_jitter(
-*   shape=16,
-*   position=position_jitter(0.2),
-*   color="red",
-*   alpha=0.5
-*   ) +
-* geom_boxplot(width=0.1) +
+  geom_boxplot(
+    aes(group=year), 
+    width=0.2,
+    outlier.alpha = 0.3) + 
   theme_xaringan()
 ```
 ]
 .pull-right[
-&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
 ]
 
 ---
-# Facetting
+# What if we want to visualise both?
+
+__Facetting__: building multi-panel plots
+
+--
 
 .pull-left[
 
 ```r
-penguins$year &lt;- 
-  as.factor(penguins$year)
 ggplot(data = penguins) +
   aes(x = year, 
       y = bill_length_mm) +
@@ -321,21 +368,86 @@ ggplot(data = penguins) +
         color=year), 
     width=0.2,
     outlier.alpha = 0.3) +
-  geom_smooth(
-    aes(x=as.integer(year), 
-        y=bill_length_mm), 
-    method="lm", 
-    color="grey") + 
-* facet_wrap(vars(species)) +
-  theme_xaringan() + 
-  scale_colour_viridis_d() + 
-  theme(axis.text.x
-        =element_blank())
+* facet_wrap(
+*   vars(species),
+*   ncol=1) +
+  theme_xaringan()
+```
+]
+.pull-right[
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
+]
+
+---
+# Facetting: *ncol=3*
+
+.pull-left[
+
+```r
+ggplot(data = penguins) +
+  aes(x = year, 
+      y = bill_length_mm) +
+  geom_boxplot(
+    aes(group=year, 
+        color=year), 
+    width=0.2,
+    outlier.alpha = 0.3) +
+* facet_wrap(
+*   vars(species),
+*   ncol=3) +
+  theme_xaringan()
 ```
 ]
 .pull-right[
 &lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
 ]
+
+---
+# Removing x-labels for beautification
+
+.pull-left[
+
+```r
+ggplot(data = penguins) +
+  aes(x = year, 
+      y = bill_length_mm) +
+  geom_boxplot(
+    aes(group=year, 
+        color=year), 
+    width=0.2,
+    outlier.alpha = 0.3) +
+  facet_wrap(
+    vars(species),
+    ncol=3) +
+  theme_xaringan() + 
+* theme(axis.text.x
+*       =element_blank())
+```
+]
+.pull-right[
+&lt;img src="01_data_visualisation_with_ggplot_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
+]
+
+---
+# Recap 3
+
+- __Boxplots__ are created via *geom_boxplot*. We need to specify *x* and *y* within *aes()* for R to know relationships to plot
+
+--
+
+- We can change the width of a geometry via *width* and change the opacity of outliers in *geom_boxplot* via *outlier.alpha*
+
+--
+
+- **facet_wrap** is a powerful command that let's us create multiple panels called *facets* for different units in a category
+
+--
+
+- We can hide the x-labels of a plot by calling *theme(axis.text.x=element_blank())*.
+
+--
+
+# Questions?
 
 ---
 # Enough said...

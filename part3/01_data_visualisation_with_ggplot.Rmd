@@ -24,7 +24,31 @@ library(tidyverse)
 library(palmerpenguins)
 ```
 
+# Motivation
 
+.pull-left[
+```{r, motivation2_left, echo = FALSE, warning=FALSE}
+hist(penguins$bill_length_mm, freq = FALSE)
+```
+]
+--
+
+.pull-right[
+```{r, motivation2_right, echo = FALSE, warning=FALSE}
+ggplot(data=penguins) +
+  aes(bill_length_mm) +
+  geom_histogram(         
+    aes(                  
+      fill = species,     
+      y = ..density..     
+      ),                  
+    alpha=0.3             
+    ) +                   
+  theme_xaringan()
+```
+]
+
+---
 # Motivation
 
 .pull-left[
@@ -46,56 +70,29 @@ ggplot(data = penguins) +
         color=year), 
     width=0.2,
     outlier.alpha = 0.3) +
-  geom_smooth(
-    aes(x=as.integer(year), 
-        y=bill_length_mm), 
-    method="lm", 
-    color="grey") + 
   facet_wrap(vars(species)) +
-  theme_xaringan() + 
-  scale_colour_viridis_d() + 
+  theme_xaringan() +
   theme(axis.text.x
         =element_blank())
 ```
 ]
 
 ---
-# Motivation
-
-.pull-left[
-```{r, motivation2_left, echo = FALSE, warning=FALSE}
-hist(penguins$bill_length_mm, freq = FALSE)
-```
-]
---
-
-.pull-right[
-```{r, motivation2_right, echo = FALSE, warning=FALSE}
-ggplot(data=penguins) +
-  aes(bill_length_mm) +
-  geom_histogram(         
-    aes(                  
-      fill = species,     
-      y = ..density..     
-      ),                  
-    alpha=0.3             
-    ) +                   
-  geom_density(           
-    aes(                  
-      color = species)    
-    ) +                   
-  geom_rug(aes(color=species)) +
-  theme_xaringan()
-```
-]
-
----
 # ggplot2
 
-- "The grammar of graphics" -> 3 components make a graph
-  + dataset
-  + coordinate system
-  + geometries ("geoms"): visual marks representing data points
+"The grammar of graphics" -> 3 components make a graph
+
+--
+
+- data
+  
+--
+
+- coordinate system
+  
+--
+
+- geometries ("geoms"): visual marks representing data points
 
 --
 
@@ -103,10 +100,19 @@ ggplot(data=penguins) +
 
 ---
 # ggplot2
-- geom's have properties -> "aesthetics"
-  + size
-  + color
-  + x, y
+geom's have properties -> "aesthetics"
+
+--
+
+- x, y
+
+--
+
+- color
+
+--
+
+- size
 
 --
 
@@ -203,32 +209,33 @@ ggplot(data=penguins) +
 ]
 
 ---
-# Adding KDE and rug plot
+# Recap 1
 
-.pull-left[
-```{r, histogram3, fig.show = 'hide', warning=FALSE}
+- a trio of __data__ + __coordinate system__ + __geometries__ makes a ggplot
 
-ggplot(data=penguins) +
-  aes(bill_length_mm) +
-  geom_histogram(           #<<
-    aes(                    #<<
-      fill = species,       #<<
-      y = ..density..       #<<
-      ),                    #<<
-    alpha=0.3               #<<
-    ) +                     #<<
-  geom_density(             #<<
-    aes(                    #<<
-      color = species)      #<<
-    ) +                     #<<
-  geom_rug(aes(color=species)) + #<<
-  theme_xaringan()
-```
-]
-.pull-right[
-```{r ref.label = 'histogram3', echo = FALSE, warning=FALSE}
-```
-]
+--
+
+- certain __properties__ can be assigned to __geometries__ via __aes()__
+
+--
+
+- we can create plots through applying a __logical sequence of commands connected by *+* signs__
+
+--
+
+- Histograms are created with via *geom_histogram*
+
+--
+
+- Labels can be assigned with via *labs*
+
+--
+
+- within *aes()*, the *fill* property can be used to __distinguish different categories in your data set__
+
+--
+
+# Any questions so far?
 
 ---
 # Scatterplot
@@ -248,7 +255,7 @@ ggplot(data = penguins) +
 ]
 
 ---
-# Add regression line
+# Add a linear regression line
 
 .pull-left[
 ```{r, scatterplot1.1, fig.show = 'hide', warning=FALSE}
@@ -267,7 +274,7 @@ ggplot(data = penguins) +
 ]
 
 ---
-# Distinguish species via colors
+# Distinguish species with colors
 
 .pull-left[
 ```{r, scatterplot2, fig.show = 'hide', warning=FALSE}
@@ -278,6 +285,8 @@ ggplot(data = penguins) +
     aes(color = species,      #<<
         shape = species),     #<<
     size = 2) +               #<<
+  geom_smooth(method="lm",   
+              color="blue") +
   theme_xaringan()
 ```
 ]
@@ -287,8 +296,7 @@ ggplot(data = penguins) +
 ]
 
 ---
-# Add regression lines
-- Simpson's paradox: https://en.wikipedia.org/wiki/Simpson%27s_paradox
+# Category-specific regression lines
 
 .pull-left[
 ```{r, scatterplot3, fig.show = 'hide', warning=FALSE}
@@ -313,8 +321,37 @@ ggplot(data = penguins) +
 ```
 ]
 
+--
+
+Simpson's paradox: https://en.wikipedia.org/wiki/Simpson%27s_paradox
+
 ---
-# Boxplot
+# Recap 2
+
+- __Scatterplots__ are created via *geom_point*
+
+--
+
+- __Regression lines__ can be fit to the data points via *geom_smooth*. We learned about the *'lm'* method, but many other (non-linear) methods are available.
+
+--
+
+- Within *aes()*, the *color* and *shape* properties can be used to distinguish categories in your data
+
+--
+
+- __Category-specific regression lines__ can be fitted by specifying the category in *aes()*
+
+--
+
+- A bit off-topic, but important: Unraveling __categorical clusters__ in your data is crucial for gaining valid insights (*Simpson's paradox*)
+
+--
+
+# Questions?
+
+---
+# Boxplot: x = species
 
 .pull-left[
 ```{r, boxplot, fig.show = 'hide', warning=FALSE}
@@ -331,36 +368,34 @@ ggplot(data = penguins) +
 ]
 
 ---
-# Violinplot
+# Boxplot: x = year
 
 .pull-left[
-```{r, violinplot, fig.show = 'hide', warning=FALSE}
+```{r, facet_wrap1, fig.show = 'hide', warning=FALSE}
 ggplot(data = penguins) +
-  aes(x = species, 
+  aes(x = year, #<<
       y = bill_length_mm) +
-  geom_violin(alpha=.5) + #<<
-  geom_jitter( #<<
-    shape=16, #<<
-    position=position_jitter(0.2), #<<
-    color="red", #<<
-    alpha=0.5#<<
-    ) + #<<
-  geom_boxplot(width=0.1) + #<<
+  geom_boxplot(
+    aes(group=year), 
+    width=0.2,
+    outlier.alpha = 0.3) + 
   theme_xaringan()
 ```
 ]
 .pull-right[
-```{r ref.label = 'violinplot', echo = FALSE, warning=FALSE}
+```{r ref.label = 'facet_wrap1', echo = FALSE, warning=FALSE}
 ```
 ]
 
 ---
-# Facetting
+# What if we want to visualise both?
+
+__Facetting__: building multi-panel plots
+
+--
 
 .pull-left[
-```{r, facet_wrap, fig.show = 'hide', warning=FALSE}
-penguins$year <- 
-  as.factor(penguins$year)
+```{r, facet_wrap2, fig.show = 'hide', warning=FALSE}
 ggplot(data = penguins) +
   aes(x = year, 
       y = bill_length_mm) +
@@ -369,22 +404,87 @@ ggplot(data = penguins) +
         color=year), 
     width=0.2,
     outlier.alpha = 0.3) +
-  geom_smooth(
-    aes(x=as.integer(year), 
-        y=bill_length_mm), 
-    method="lm", 
-    color="grey") + 
-  facet_wrap(vars(species)) + #<<
-  theme_xaringan() + 
-  scale_colour_viridis_d() + 
-  theme(axis.text.x
-        =element_blank())
+  facet_wrap( #<<
+    vars(species), #<<
+    ncol=1) + #<<
+  theme_xaringan()
 ```
 ]
 .pull-right[
-```{r ref.label = 'facet_wrap', echo = FALSE, warning=FALSE}
+```{r ref.label = 'facet_wrap2', echo = FALSE, warning=FALSE}
 ```
 ]
+
+---
+# Facetting: *ncol=3*
+
+.pull-left[
+```{r, facet_wrap21, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = year, 
+      y = bill_length_mm) +
+  geom_boxplot(
+    aes(group=year, 
+        color=year), 
+    width=0.2,
+    outlier.alpha = 0.3) +
+  facet_wrap( #<<
+    vars(species), #<<
+    ncol=3) + #<<
+  theme_xaringan()
+```
+]
+.pull-right[
+```{r ref.label = 'facet_wrap21', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Removing x-labels for beautification
+
+.pull-left[
+```{r, facet_wrap3, fig.show = 'hide', warning=FALSE}
+ggplot(data = penguins) +
+  aes(x = year, 
+      y = bill_length_mm) +
+  geom_boxplot(
+    aes(group=year, 
+        color=year), 
+    width=0.2,
+    outlier.alpha = 0.3) +
+  facet_wrap(
+    vars(species),
+    ncol=3) +
+  theme_xaringan() + 
+  theme(axis.text.x #<<
+        =element_blank()) #<<
+```
+]
+.pull-right[
+```{r ref.label = 'facet_wrap3', echo = FALSE, warning=FALSE}
+```
+]
+
+---
+# Recap 3
+
+- __Boxplots__ are created via *geom_boxplot*. We need to specify *x* and *y* within *aes()* for R to know relationships to plot
+
+--
+
+- We can change the width of a geometry via *width* and change the opacity of outliers in *geom_boxplot* via *outlier.alpha*
+
+--
+
+- **facet_wrap** is a powerful command that let's us create multiple panels called *facets* for different units in a category
+
+--
+
+- We can hide the x-labels of a plot by calling *theme(axis.text.x=element_blank())*.
+
+--
+
+# Questions?
 
 ---
 # Enough said...
