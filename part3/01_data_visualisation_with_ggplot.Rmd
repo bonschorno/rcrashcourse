@@ -390,7 +390,7 @@ ggplot(data = penguins) +
 ---
 # What if we want to visualise both?
 
-__Facetting__: building multi-panel plots
+__Facetting__: building multi-panel plots via *facet_wrap*
 
 --
 
@@ -416,7 +416,7 @@ ggplot(data = penguins) +
 ]
 
 ---
-# Facetting: *ncol=3*
+# facet_wrap with 3 columns
 
 .pull-left[
 ```{r, facet_wrap21, fig.show = 'hide', warning=FALSE}
@@ -468,7 +468,7 @@ ggplot(data = penguins) +
 ---
 # Recap 3
 
-- __Boxplots__ are created via *geom_boxplot*. We need to specify *x* and *y* within *aes()* for R to know relationships to plot
+- __Boxplots__ are created via *geom_boxplot*. We need to specify *x* and *y* within *aes()* for R to know which data to plot
 
 --
 
