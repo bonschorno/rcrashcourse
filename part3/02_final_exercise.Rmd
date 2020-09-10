@@ -32,8 +32,6 @@ library(tidyverse)
 - Multiple studies place the *effect between an increase of 3 to 7 percent*, with an **average of a 5 percent increase**." [(NCLS)](https://www.ncsl.org/research/elections-and-campaigns/same-day-registration.aspx)
 ]
 
---
-
 .pull-right[
 <img src="figures/EDR.jpeg" width="500" />
 [(Source: businessinsider.com, November 2018.)](https://www.businessinsider.com/last-day-voter-registration-deadline-by-state-2018-10?r=US&IR=T)
@@ -41,24 +39,35 @@ library(tidyverse)
 
 
 ---
-# Exercise
+# Research question
 
-- We want to examine the *effect of election day registration upon voter turnout*.
+.pull-left[
+We want to examine ourselves **if introducing election day registration has an impact on voter turnout**.
 
-- Specifically, what is the *causal effect* of EDR upon voter turnout?
+We will try to understand the **effect of EDR upon voter turnout** in the state of Maine.
 
-- Is our estimate in the range of values provided in the literature, i.e., 3-7% with 5% on average?
+If time allows, we will go one step further and ask: 
+
+What is the **causal effect** of EDR upon voter turnout in the US, and is our estimate in the *range of values provided in the literature*, i.e., **5% on average**?
+]
 
 --
 
+.pull-right[
 <img src="figures/cartoon-causation.png" width="400" />
 
 [*(Source: Andertoons)*](https://andertoons.com/science/cartoon/7252/correlation-does-not-imply-causation-we-know-it-was-brian)
+
+(Acknowledgment: this exercise is based on an assignment created by our former Statistics I lecturer Liam Beiser-McGreith. Thanks, Liam!)
+
+]
 
 ---
 # The data set
 
 We use data on **US states** for all **presidential elections from 1920 to 2012**.
+
+--
 
 .pull-left[
 ```{r, warning=FALSE}
@@ -86,16 +95,39 @@ length(unique(turnout$year))
 ```
 
 ---
-### Exercise 1 (~ 20 min)
-The state **Maine** introduced election day registration in the year **1976**. 
+### Exercise
 
-1) **Plot turnout** in Maine over the 1920-2012 period.
+We first focus on the state **Maine** (abb = "ME"). Maine introduced *election day registration (EDR)* in the year **1976**.
 
-2) **Distinguish between the period before and after EDR was introduced**: These are commonly called the **"pre-" and "post-treatment"** periods, respectively, where "treatment" refers to the introduction of EDR.
+--
 
-3) **Update your plot**: we want to visualise the time EDR was introduced, the accompanying pre- and post-treatment periods and the mean values of pre- and post-treatment turnout in Maine. 
+1) **Plot turnout in Maine over the 1920-2012 time period.** 
 
-4) **Bonus**: Did mean turnout change significantly before and after 1976?
+**Hint**: First, you need to *filter* for Maine (abb = "ME"). For the plot *geom_line* and *geom_point* might be suitable functions. Note that years should be on the x-axis, while turnout should be on the y-axis.
+
+--
+
+2) **Distinguish between the period before and after EDR was introduced in Maine**. 
+
+These are commonly called the *"pre-" and "post-treatment"* periods respectively, where the term "treatment" specifically refers to the introduction of EDR. After you have done so, split the pre- and post-treatment data and assign them to two new variables *pre* and *post*, respectively. 
+
+**Hint**: Use *mutate* to add another column called *treatment* to the data set that consists out of 0 and 1 values, where 1 should be assigned to all rows starting 1976 and 0 to all rows before that (an *ifelse* clause might be handy). Use *filter* to split the pre- and post-treatment data.
+
+---
+### Exercise
+
+3) **Update your plot further**. 
+
+Visualise the *time EDR was introduced* to distinguish *pre- and post-treatment periods* and the *mean values of pre- and post-treatment turnout* in Maine. In the end, *label* your plot.
+
+--> *Do you observe a notable difference in pre- and post-treatment mean turnout?*
+
+**Hint**: use *geom_vline* to visualise the EDR introduction time and *geom_segment* to indicate pre- and post-treatment period mean turnout. Use *labs* to assign x/y labels and a title.
+
+---
+# Go for it!
+
+<img src="figures/now-its-your-turn-have-fun-people.jpg" width="400" />
 
 ---
 ### 1) Plot turnout in Maine over 1920 - 2012.
@@ -163,53 +195,71 @@ ggplot(turnout_maine) +
 ]
 .pull-right[
 ```{r ref.label = 'maine2', echo = FALSE, warning=FALSE}
+
 ```
+
+Pre-treatment mean turnout: `r round(mean(pre$turnout), 2) `%
+Post-treatment mean turnout: `r round(mean(post$turnout), 2)`%
+Difference: `r round(mean(post$turnout) - mean(pre$turnout), 2) `%
+
 ]
 
 ---
-### 4) Bonus: Significance check
+### Bonus exercise (to be continued at home (-: )
 
-.pull-left[
-```{r}
-ttest <- t.test(
-  x=pre$turnout, 
-  y=post$turnout,
-  mu=0,
-  conf.level = 0.05, 
-  alternative = "two.sided"
-  )
-```
-]
-.pull-right[
-The pre-treatment mean turnout rate in Maine is `r round(mean(pre$turnout), 2) `%, while the post-treatment mean turnout rate is `r round(mean(post$turnout), 2)`%. 
+- We now go one step further and ask a more general question: **what is the causal effect of EDR upon voter turnout in the US** as a whole?
 
-The difference between pre- and post-treatment is `r round(mean(post$turnout) - mean(pre$turnout), 2) `%. 
+--
 
-A t-test confirms that this result is statistically significant at the 95% confidence level (p = `r round(ttest$p.value, 3)`).
-]
-
-
+- This means that we not only need to distinguish between **pre- and post-treatment periods** (i.e., the time EDR was introduced in a state, e.g., in Maine), but also between **treatment and control group states**. *Treatment group states* are those where EDR was introduced, while *control group states* are those where it was not introduced over the observed time period. The *control group states* provide what is called the **counterfactual** in policy jargon, i.e., "what would have happened if no policy was introduced?".
 
 ---
-### Exercise 2 (~ 20 min)
+### Bonus exercise
 
-Plot turnout across all states over time, distinguishing between election day registration states and non-election day registration states, as well as when election day registration was introduced.
+- Essentially, you will work with a combination of **4 subsets of the original data**: 
+  1. the **pre-treatment subset**
+  2. the **post-treatment subset**
+  3. the **treatment subset**
+  4. the **control subset**
 
-> TODO: provide better description
+--
+
+- We will only **focus on those states that introduced EDR in 1976**. There are *6 states that introduced EDR at other points in time *throughout our observation period, but we will *neglect* them for the time being in order to *simplify the analysis*. Note that since we do not exploit the full range of information availabe, our *estimates will be somewhat biased*. There are techniques for addressing this and you will (probably) learn about them in the future. 
 
 ---
-### Solution to Exercise 2
+### Bonus exercise: steps and hints
 
-> TODO: break down into many smaller chunks that fit one slide each
-> TODO: tidyversify code. use functions that were introduced by Colin.
+1) Find the treatment group states (subset 3): use *filter* with conditions to find all states that introduced EDR in 1976 (Hint: ME, MN, WI). Assign to a new variable called *states_E1*.
 
-.pull-left[
-```{r did1, echo = FALSE, warning=FALSE}
+2) Find the control group states (subset 4): use *group_by*, *summarise*, *filter* and *select* to find all states that didn't introduce EDR within our observation period. Assign to a new variable called *states_E0*.
+
+3) Now, focus on the time dimension in the control group subset: use *filter* to distinguish between pre- and post-treatment subsets within the control group. Assign the resulting data frames to variables called *E0T0* and *E0T1*, respectively. Calculate the mean $\mu_{turnout}$ (over the time dimension) for both variables.
+
+4) Next, focus on the time dimension in the treatment group subset: use *filter* to distinguish between pre- and post-treatment subsets within the treatment group. Assign the resulting data frames to variables called *E1T0* and *E1T1*, respectively. Calculate the mean $\mu_{turnout}$ (over the time dimension) for both variables.
+
+---
+### Bonus exercise: steps and hints
+
+... continued ...
+
+5) **Plot** turnout across all states over time, distinguishing between election day registration states and non-election day registration states, as well as pre- and post-treatment periods.
+
+6) Lastly, estimate the **average effect of EDR on voter turnout** through double-differencing of mean turnout within each of the 4 subsets:
+
+$$DID = (\mu_{E1T1} - \mu_{E1T0}) - (\mu_{E0T1} - \mu_{E0T0})$$
+
+---
+### Solution to Exercise 2: steps 1 and 2
+
+```{r did0, warning=FALSE}
 yrs <- unique(turnout$year) # years
-states <- unique(turnout$abb) # all states
+states <- unique(turnout$abb) # states
 
 # treatment group data
-states_E1 <- unique(filter(turnout, (policy_edr == 1 & year == 1976))$abb) 
+states_E1 <- unique(
+  filter(
+    turnout, (policy_edr == 1 & year == 1976))$abb
+  ) 
 
 # control group data
 states_E0 <- turnout %>%
@@ -218,7 +268,12 @@ states_E0 <- turnout %>%
   filter(sum_policy_edr == 0) %>% 
   select(abb)
 states_E0 <- states_E0$abb
+```
 
+---
+### Solution to Exercise 2: step 3
+
+```{r did1, warning=FALSE}
 # Control group elements: E0T0, E0T1
 E0 <- turnout %>% filter(abb %in% states_E0)
 E0T0 <- E0 %>% filter(year < 1976)
@@ -231,7 +286,12 @@ E0T0_mean <- E0T0 %>%
 E0T1_mean <- E0T1 %>%
   group_by(year) %>%
   summarise(mean_turnout = mean(turnout))
+```
 
+---
+### Solution to Exercise 2: step 4
+
+```{r did2, warning=FALSE}
 # Treatment group elements: E1T0, E1T1
 E1 <- turnout %>% filter(abb %in% states_E1)
 E1T0 <- E1 %>% filter(year < 1976)
@@ -244,7 +304,40 @@ E1T0_mean <- E1T0 %>%
 E1T1_mean <- E1T1 %>%
   group_by(year) %>%
   summarise(mean_turnout = mean(turnout))
+```
 
+---
+### Solution to Exercise 2: step 5
+
+```{r did3_0, warning=FALSE, fig.show = 'hide'}
+# plot
+ggplot() +
+  geom_vline(xintercept=1976, 
+             linetype='dashed') + 
+  # E0T0
+  geom_point(data = E0T0_mean, 
+             aes(x=year, y=mean_turnout), 
+             colour='red') +
+  geom_line(data = E0T0_mean, aes(x=year, y=mean_turnout), 
+            colour='red') +
+  geom_segment(data = E0T0_mean, 
+               x=first(E0T0_mean$year), 
+               xend=last(E0T0_mean$year), 
+               y=mean(E0T0_mean$mean_turnout), 
+               yend=mean(E0T0_mean$mean_turnout), 
+               color='red', 
+               linetype='dashed') + 
+  # labeling
+  labs(title = "Turnout across states",
+       x = "Year", y = "Mean voter turnout (%)") + 
+  theme_xaringan()
+```
+
+---
+### Solution to Exercise 2: step 5
+
+.pull-left[
+```{r did4, echo = FALSE, warning=FALSE}
 # plot
 ggplot() +
   geom_vline(xintercept=1976, linetype='dashed') + 
@@ -280,26 +373,16 @@ ggplot() +
 ```
 ]
 .pull-right[
-Of the `r length(states)` states included in the data set, `r length(states_E1)` (`r states_E1`) have introduced election day registration in 1976. `r length(states_E0)` states have not introduced it at all throughout the 1920-2012 time period. This leaves us with `r length(states) - length(states_E0) - length(states_E1)` states that introduced election day registration in years other than 1976.
+The figure shows group-aggregated mean voter turnout over time. It can easily be seen that the treatment-group mean increased between pre- and post-treatment, while the control-group mean did not change a lot. 
 
-The figure shows group-aggregated mean voter turnout over time. It can easily be seen that the treatment-group mean increased between pre- and post-treatment, while the control-group mean actually declined minimally.
+**But: is the change in treatment-group mean turnout really in response to the introduction of EDR?**
 ]
 
 ---
-# Exercise 3
-
-Estimate the average effect of EDR on voter turnout.
-
-> TODO: provide better description
-
----
-# Solution to Exercise 3 (~ 5 min)
-
-> TODO: tidyversify
-> TODO: add barplot
+### Solution to Exercise 2: step 6
 
 .pull-left[
-```{r did2, warning=FALSE}
+```{r did5, warning=FALSE}
 
 # treatment group difference
 diff_treatment <- 
@@ -317,5 +400,26 @@ DID <- diff_treatment -
 ```
 ]
 .pull-right[
-The effect of EDR on voter turnout is `r round(DID, 2)`%.
+The average **causal effect** of EDR on voter turnout is **`r round(DID, 2)`%**.
 ]
+
+---
+### Congratulations!
+
+Without knowing so, you have completed your first causal inference using a quasi-experimental technique called **Difference in Differences**, in short **DID**. You will learn more about this and other related methods in your studies.
+
+--
+
+Thanks for being part of the very first edition of the **MACIS-STP R Crash Course** (-:
+
+--
+
+Now it's time for a **final 20 min break** and **giving feeback**.
+
+--
+
+Please take the time and fill out the feedback form [**by following this link (click)**](https://docs.google.com/forms/d/e/1FAIpQLSfRCdY-WfyuLMUKC3_BLXr0YJXeFs9gWcD__KUJYUSdGXgxLA/viewform) during the break. Your feedback is invaluable for improving the **MACIS-STP R Crash Course** for next year.
+
+--
+
+We **reconvene at 15:20** for a final wrap up and end at **15:45**.
