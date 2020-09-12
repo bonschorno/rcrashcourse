@@ -4,7 +4,7 @@ This repository contains presentations, exercises, and the corresponding solutio
 
 The course is divided into three parts:
 
-| <div style="text-align: left"> **Part 1 : Introduction to Base R** </div>    |
+| **Part 1 : Introduction to Base R**                                          |
 |------------------------------------------------------------------------------|
 | Motivation – the role of R in the scope of the study programs                |
 | R – a language for statistical computing and data analysis                   |
@@ -16,18 +16,19 @@ The course is divided into three parts:
 
 <br>
 
-| <div style="text-align: left"> **Part 2 : Introduction to the Tidyverse and `dplyr`** </div> |
-|--------------------------------------------------------------------------------------------  |
-| Tidyverse – welcome to the tidy philosophy of R                                              |
-| Tidyverse vs Base-R – two complementing approaches                                           |
-| The pipe - `%>%`                                                                             |
-| `dplyr` – introduction to its essential verbs                                                |
+| **Part 2 : Introduction to the Tidyverse and `dplyr`** |   
+|------------------------------------------------------- |
+| Tidyverse – welcome to the tidy philosophy of R        |
+| Tidyverse vs Base-R – two complementing approaches     |
+| The pipe - `%>%`                                       |
+| `dplyr` – introduction to its essential verbs          |
 
 <br>
 
-| <div style="text-align: left"> **Part 3 : Introduction to `ggplot2` and final exercise** </div> |
-| `ggplot2` - modern data visualisation in R                                                      |
-| Final exercise                                                                                  |
+| **Part 3 : Introduction to `ggplot2` and final exercise** |
+|-----------------------------------------------------------|
+| `ggplot2` - modern data visualisation in R                |
+| Final exercise                                            |
 
 
 According to the three parts, the original timetable foresees one half-day block per part. It is up to the instructors to decide how they want to further subdivide these blocks. Either theoretical inputs regularly alternate with practical applications or theory is presented in a single session, followed by exercises. We have had good experience with both approaches. 
@@ -39,4 +40,5 @@ For further information, you can contact the following e-mail address: colin.wal
 Best, 
 
 Mirjam, Felix, Johann, and Colin
+
 *Student Representatives of MACIS and STP*
