@@ -1,26 +1,42 @@
-## Hi and welcome to the 2020 D-GESS Crashcourse with R! 
+## Hi and welcome to the D-GESS Crashcourse with R! 
 
-Are you excited for your first semester? Have you heard that your degree will be a lot about programming and that you will be using a lot of R? If you don’t know R yet, don’t worry! We are happy to help, because we know how you feel. We offer an R-Bootcamp for beginners and those who would like to refresh the basics. You can find the program of the course below. We're looking forward to (e-)meeting you!
+This repository contains presentations, exercises, and the corresponding solutions to make programming with R easier for people with no previous knowledge. Initially, the presentations were prepared for a 1.5-day boot camp for incoming students of the Master in Comparative and International Studies (see [MACIS](https://macis.gess.ethz.ch)) and the Master in Science, Technology, and Policy (see [MSc ETH STP](https://istp.ethz.ch/education/master.html)), respectively. In the spirit of reproducibility and the open-source movement, we decided to make this repository publicly available to all those who want to acquire basic knowledge of R themselves or teach it to others as instructors.
 
-### Program
+The course is divided into three parts:
 
-| <div style="text-align: left"> **Day 1 : Introduction to Base R (09.09)** </div>  |
-|-----------------------------------------------------------------------------------|
-| Motivation – the role of R in the scope of the study programs                     |
-| R – a language for statistical computing and data analysis                        |
-| Console – assign variables and conduct simple calculations                        |
-| The script – helps you, your friends, and colleagues to understand your code      |
-| Data structure – classes, data types and indexing                                 |
-| Your first data visualisations in R                                               |
-| Exercises                                                                         |
+| <div style="text-align: left"> **Part 1 : Introduction to Base R** </div>    |
+|------------------------------------------------------------------------------|
+| Motivation – the role of R in the scope of the study programs                |
+| R – a language for statistical computing and data analysis                   |
+| Console – assign variables and conduct simple calculations                   |
+| The script – helps you, your friends, and colleagues to understand your code |
+| Data structure – classes, data types and indexing                            |
+| Your first data visualisations in R                                          |
+| Exercises  
 
 <br>
 
-| <div style="text-align: left"> **Day 2 : Introduction to the Tidyverse (10.09)** </div> |
-|-----------------------------------------------------------------------------------------|
-| Tidyverse – welcome to the tidy philosophy of R                                         |
-| Tidyverse vs Base-R – two complementing approaches                                      |
-| The pipe - %>%                                                                          |
-| Dplyr – introduction to its essential verbs                                             |
-| Ggplot2 - modern data visualisation in R                                                |
-| Final exercise                                                                          |
+| <div style="text-align: left"> **Part 2 : Introduction to the Tidyverse and `dplyr`** </div> |
+|--------------------------------------------------------------------------------------------  |
+| Tidyverse – welcome to the tidy philosophy of R                                              |
+| Tidyverse vs Base-R – two complementing approaches                                           |
+| The pipe - `%>%`                                                                             |
+| `dplyr` – introduction to its essential verbs                                                |
+
+<br>
+
+| <div style="text-align: left"> **Part 3 : Introduction to `ggplot2` and final exercise** </div> |
+| `ggplot2` - modern data visualisation in R                                                      |
+| Final exercise                                                                                  |
+
+
+According to the three parts, the original timetable foresees one half-day block per part. It is up to the instructors to decide how they want to further subdivide these blocks. Either theoretical inputs regularly alternate with practical applications or theory is presented in a single session, followed by exercises. We have had good experience with both approaches. 
+
+All presentations and exercises were created in our free time, and we have not received any financial or other support in return. In the open-source movement spirit, we don't want to charge anything for these resources, but if you use them, we would like to ask you to give us the credits for them. 
+
+For further information, you can contact the following e-mail address: colin.walder@ir.gess.ethz.ch
+
+Best, 
+
+Mirjam, Felix, Johann, and Colin
+*Student Representatives of MACIS and STP*
