@@ -1,8 +1,7 @@
 ---
 title: "Introduction to the Tidyverse"
-author: 
-  - "Colin Walder"
-date: "11.09.2020"
+author: "Author"
+date: "Date"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -52,11 +51,19 @@ library(knitr)
 
 ---
 
+# R and R Studio
+
+"It is important to note the differences between R and RStudio. *R is a programming language* used for statistical computing while RStudio uses the R language to develop statistical programs. In R, you can write a program and run the code independently of any other computer program. *RStudio however, must be used alongside R in order to properly function*. Often referred to as an IDE, or *integrated development environment*, RStudio allows users to develop and edit programs in R by supporting a large number of statistical packages, higher quality graphics, and the ability to manage your workspace.
+
+*R and RStudio are not separate versions of the same program*, and cannot be substituted for one another. R may be used without RStudio, but RStudio may not be used without R ([Source](https://wp.stolaf.edu/it/r-vs-rstudio/))."
+
+---
+
 # What you have learnt so far
 
 --
 
--	Familiar with the RStudio interface
+-	Familiarity with the RStudio interface
 
 --
 
@@ -74,6 +81,8 @@ library(knitr)
 
 # Tidy data – a philosophy of data 
 
+--
+
 -	[Wickham (2014)](https://vita.had.co.nz/papers/tidy-data.pdf) aimed to standardise the data preparation process 
 
 --
@@ -90,6 +99,7 @@ library(knitr)
 head(table1, n = 4) %>% 
   kable(format = "html")
 ```
+
 ---
 
 # Another example
@@ -107,28 +117,23 @@ head(penguins, n = 5) %>%
 
 ---
 
-## From tidy tools to the tidyverse
+## From tidy data to the tidyverse
 
 --
 
--	The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.
+-	The tidyverse is an opinionated collection of R packages designed to facilitate data science
 
 --
 
-- Tools use tidy data both as input and output
-
-
---
-
--	`ggplot2`: Create graphics, based on The Grammar of Graphics
+- Its tools (read: packages) use/generate tidy data both as input/output
 
 --
 
--	`dplyr`: Wrangle with data, based on a Grammar of Data Manipulation
+-	`dplyr`: Helps to transform messy data to tidy data
 
 --
 
--	Facilitate data analysis/visualisation
+-	`ggplot2`: Uses tidy data to create graphics
 
 ---
 
@@ -168,7 +173,7 @@ Questions?
 
 ---
 
-### Extract columns
+### Extract variables (columns)
 
 #### Base R
 
@@ -205,7 +210,7 @@ filter(penguins, body_mass_g > 3500 & island == "Torgersen")
 
 ### Filter rows with conditions evaluated within groups
 
-In words: Flowers with maximum “Petal.Width” for each “Species”.
+In words: Penguin with maximum “bill_length_mm” for each “species”.
 
 #### Base R
 
@@ -232,6 +237,8 @@ penguins %>%
 
 ---
 
+--
+
 class: center, middle
 
 <h3>
@@ -248,7 +255,7 @@ Questions?
 
 --
 
--  Takes one return value and feeds it in as an iput to another function
+-  Takes one return value and feeds it in as an input to another function
 
 --
 
@@ -256,7 +263,7 @@ Questions?
 
 --
 
-- Helps you to write code in a way that is easier to read and understand
+- Helps you to write code that is easier to read and understand
 
 --
 
@@ -316,14 +323,6 @@ Questions?
 
 ---
 
-class: center, middle
-
-<h3>
-Time to exercise!
-</h3>
-
----
-
 ## Recap & outlook
 
 --
@@ -342,3 +341,14 @@ Time to exercise!
 
 - Next up: Data wrangling with `dplyr`
 
+---
+
+class: center, middle
+
+<h3>
+Time to exercise!
+</h3>
+
+```{r, include=FALSE}
+pagedown::chrome_print("introduction_tidyverse.html")
+```

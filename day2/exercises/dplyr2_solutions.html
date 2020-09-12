@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>dpylr (Part Two) - Solutions</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# dpylr (Part Two) - Solutions
+
+---
+
+
+
+
+
+
+## Exercises
+
+### `mpg`
+
+- Let’s start with the `mpg` dataset again. How far would one get with the Chevrolet Corvette (automatic transmission) built in 2008 on the highway with one gallon?
+
+
+```
+## [1] 25
+```
+
+---
+
+- Is there any difference between the different models of the Subaru Forester AWD built in 1999?
+
+
+```r
+cars %&gt;% 
+  filter(model == "forester awd" &amp; year == 1999) %&gt;% 
+  select(hwy)
+```
+
+```
+## # A tibble: 2 x 1
+##     hwy
+##   &lt;int&gt;
+## 1    25
+## 2    24
+```
+
+
+- Calculate the difference again between the reach in the city and the reach on the highway. How many observations in the dataset do show a difference of more than 5 miles?
+
+
+```r
+cars %&gt;% 
+  mutate(difference = abs(cty-hwy)) %&gt;% 
+  filter(difference &gt; 5) %&gt;% 
+  nrow()
+```
+
+```
+## [1] 157
+```
+
+---
+
+- Let’s look at Toyotas only. More precisely, we are interested in the models built after 2000. How many models could drive more than 20 miles in the city with one gallon only?
+
+
+```r
+cars %&gt;% 
+  filter(manufacturer == "toyota",
+         year &gt; 2000,
+         cty &gt; 20) %&gt;% 
+  distinct(model)
+```
+
+```
+## # A tibble: 3 x 1
+##   model       
+##   &lt;chr&gt;       
+## 1 camry       
+## 2 camry solara
+## 3 corolla
+```
+
+---
+
+- How many car brands produce models that fall under the category “subcompact”?
+
+
+```r
+cars %&gt;% 
+  filter(class == "subcompact") %&gt;% 
+  distinct(manufacturer)
+```
+
+```
+## # A tibble: 5 x 1
+##   manufacturer
+##   &lt;chr&gt;       
+## 1 ford        
+## 2 honda       
+## 3 hyundai     
+## 4 subaru      
+## 5 volkswagen
+```
+
+---
+
+- Which car brand has the lowest average engine displacement (in litres) across all their models built in 2008?
+
+
+```r
+cars %&gt;% 
+  filter(year == 2008) %&gt;% 
+  group_by(manufacturer) %&gt;% 
+  summarise(enginedisplacement = mean(displ, na.rm = TRUE)) %&gt;% 
+  filter(enginedisplacement == min(enginedisplacement))
+```
+
+```
+## # A tibble: 1 x 2
+##   manufacturer enginedisplacement
+##   &lt;chr&gt;                     &lt;dbl&gt;
+## 1 honda                      1.85
+```
+
+---
+
+- Which SUVs of which car brand get you the farthest on the highway on average? 
+
+
+```r
+cars %&gt;% 
+  filter(class == "suv") %&gt;% 
+  group_by(manufacturer) %&gt;% 
+  summarise(hwydistance = mean(hwy, na.rm = TRUE)) %&gt;% 
+  filter(hwydistance == max(hwydistance))
+```
+
+```
+## # A tibble: 1 x 2
+##   manufacturer hwydistance
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 subaru                25
+```
+
+---
+
+### `starwars`
+
+- Back to Starwars. Do female, male or characters with no sex (you can ignore the other categories) have the highest age on average?
+
+
+```r
+starwars %&gt;% 
+  group_by(sex) %&gt;% 
+  summarise(age = mean(birth_year, na.rm = TRUE)) %&gt;% 
+  filter(sex != "hermaphroditic" &amp; !is.na(sex))
+```
+
+```
+## # A tibble: 3 x 2
+##   sex      age
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 female  47.2
+## 2 male    85.5
+## 3 none    53.3
+```
+
+---
+
+- Which eye colour is associated with the lowest average height?
+
+
+```r
+starwars %&gt;% 
+  group_by(eye_color) %&gt;% 
+  summarise(height = mean(height, na.rm = TRUE)) %&gt;% 
+  filter(height == min(height, na.rm = TRUE))
+```
+
+```
+## # A tibble: 1 x 2
+##   eye_color height
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 red, blue     96
+```
+
+---
+
+- How many characters weigh either over 100kg or are Droids?
+
+
+```r
+starwars %&gt;% 
+  filter(xor(mass &gt; 100, species == "Droid")) %&gt;% 
+  nrow()
+```
+
+```
+## [1] 12
+```
+
+
+- How many homeworlds are listed in the dataset?
+
+
+```r
+starwars %&gt;% 
+distinct(homeworld) %&gt;% 
+  filter(!is.na(homeworld)) %&gt;% 
+  nrow()
+```
+
+```
+## [1] 48
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

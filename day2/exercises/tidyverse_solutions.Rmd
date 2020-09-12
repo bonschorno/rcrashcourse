@@ -1,0 +1,121 @@
+---
+title: "Tidyverse - Solutions"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, message = FALSE, warning = FALSE, results = "hide") #rendering sharp plots / not showing messages
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+library(tidyverse)
+library(palmerpenguins)
+data(package = "palmerpenguins")
+library(knitr)
+library(kableExtra)
+```
+
+## Exercises
+
+- Install the Tidyverse or update it. Then load it.
+
+```{r}
+#install.packages("tidyverse") #if not installed/updated yet
+library(tidyverse)
+```
+
+- Load the `magrittr` package and check out its help file on the forward pipe operator (`%>%`).
+
+```{r}
+library(magrittr)
+?magrittr
+```
+
+---
+
+- Let’s compare the Base R approach with the Tidyverse approach:
+
+- First, install the package `palmerpenguins` and load the built-in penguins dataset into RStudio. You can do this by typing `data(package = "palmerpenguins")`. How many rows and variables does the `penguins` dataset have? And how many factors?
+  
+```{r}
+#install.packages("palmerpenguins") #if not installed yet
+
+#load package
+library(palmerpenguins)
+
+#load the datasets
+data(package = "palmerpenguins")
+
+#dimensions of the penguins dataset
+glimpse(penguins)
+# --> 344 rows, 8 variables, 3 factors
+```
+
+---
+
+- Now select the following variables: `species`, `island`, `flipper_length_mm`, `sex`, `year`, once with the Base R approach, and once with the Tidyverse approach
+  
+```{r}
+#base r
+penguins[, c("species", "island", "flipper_length_mm", "sex", "year")]
+
+#tidyverse
+penguins %>% 
+select(species, island, flipper_length_mm, sex, year)
+```
+
+- Remove all NAs. Again, once with the Base R and once with the Tidyverse approach.
+    
+```{r}
+#base r
+na.omit(penguins)
+
+#tidyverse
+penguins %>% 
+  drop_na()
+```
+
+---
+
+- What’s the median flipper length of the different species? Try to obtain the same results with both approaches.
+
+```{r, results='markup'}
+#base r
+penguins <- penguins[!(is.na(penguins$bill_length_mm)),]
+
+tapply(penguins$bill_length_mm, penguins$species, median)
+
+#tidyverse
+penguins %>% 
+  group_by(species) %>% 
+  summarise(median_flipper_length = median(bill_length_mm, na.rm = T))
+```
+
+---
+
+- What’s the minimum body mass on the different islands? Again, try to find the same results with both approaches.
+
+```{r, results='markup'}
+#base r
+penguins <- penguins[!(is.na(penguins$body_mass_g)),]
+
+tapply(penguins$body_mass_g, penguins$island, min)
+
+#tidyverse
+penguins %>% 
+  group_by(island) %>% 
+  summarise(min_bodymass = min(body_mass_g, na.rm = T))
+```
+
+```{r, include=FALSE}
+pagedown::chrome_print("tidyverse_solutions.html")
+```

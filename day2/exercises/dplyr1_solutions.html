@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>dplyr (Part One) - Solutions</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# dplyr (Part One) - Solutions
+
+---
+
+
+
+
+
+
+## Exercises
+
+### `mpg`
+
+- Load the `dplyr` package – either by loading the specific package or the `tidyverse` package as a whole.
+
+
+```r
+library(tidyverse)
+```
+
+- Make sure you have the most recent version of `dpylr` (1.0.2) to ensure smooth coding.
+
+
+```r
+sessionInfo()
+```
+ 
+---
+
+- Load the `ggplot2` package as well if you haven’t done so yet. Store the default dataset `mpg` (Fuel economy data from 1999 to 2008 for 38 popular models of cars) in a data frame.
+
+
+```r
+#library(ggplot2) #if dplyr loaded specifically
+cars &lt;- mpg
+```
+
+- Change the name of the following variables: `displ` to displacement, `cyl` to cylinders, `trans` to transmission, `fl` to fueltype.
+
+
+```r
+cars &lt;- cars %&gt;% 
+  rename(displacement = displ, 
+         cylinders = cyl, 
+         transmission = trans, 
+         fueltype = fl)
+```
+
+- Drop the column `class`.
+
+
+```r
+cars &lt;- cars %&gt;% 
+  select(-class)
+```
+
+---
+
+- Create a new column `distance_diff`, which shows the difference between cty and hwy. What's the highest difference in absolute terms?
+
+
+```r
+cars &lt;- cars %&gt;% 
+  mutate(distance_diff = cty-hwy)
+
+max(abs(cars$distance_diff))
+```
+
+```
+## [1] 12
+```
+
+- Create another new column `fivegal_distance`, which indicates how far one could drive on the highway with 5 gallons in their tank. How many columns do you have in your dataset by now?
+
+
+```r
+cars &lt;- cars %&gt;% 
+  mutate(fivegal_distance = hwy*5)
+
+ncol(cars)
+```
+
+```
+## [1] 12
+```
+
+---
+
+- Bonus question: Which car model(s) would get you the furthest on the highway with one gallon in the tank? 
+
+
+```r
+cars %&gt;% 
+  filter(hwy == max(hwy)) %&gt;% 
+  pull(model)
+```
+
+```
+## [1] "jetta"      "new beetle"
+```
+
+---
+
+### `starwars`
+
+- Load the starwars dataset (part of `dplyr`) and store it in a data frame.
+
+
+```r
+starwars &lt;- starwars
+```
+
+- Drop all columns after `species`.
+
+
+```r
+starwars &lt;- starwars %&gt;% 
+  select(!films:starships)
+```
+
+- Create a new column `height_m`, listing the character’s height in meters. Drop `height` afterwards.
+
+
+```r
+starwars &lt;- starwars %&gt;% 
+  mutate(height_m = height/100) %&gt;% 
+  select(-height)
+```
+
+---
+
+- Keep the following variables: `name`, `mass`, all `_color` variables as well as all numeric variables.
+
+
+```r
+starwars &lt;- starwars %&gt;% 
+  select(name, mass, 
+         contains("_color"),
+         where(is.numeric))
+```
+
+- Set the height variable as the first column in your dataset. Put all the `_color`-variables at the end of the dataset. Try to find a neater way to do that than just manually typing all the `_color`-variables. Tip: Check out the `relocate()`-helpfile.
+
+
+```r
+starwars &lt;- starwars %&gt;% 
+  relocate(height_m) %&gt;% 
+  relocate(contains("_color"), .after = last_col())
+```
+
+---
+
+- Bonus question: Which characters were born more than 100 years before the Battle of Yavin?
+
+
+```r
+starwars %&gt;% 
+  filter(birth_year &gt; 100) %&gt;% 
+  pull(name)
+```
+
+```
+## [1] "C-3PO"                 "Chewbacca"             "Jabba Desilijic Tiure"
+## [4] "Yoda"                  "Dooku"
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

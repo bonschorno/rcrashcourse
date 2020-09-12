@@ -1,8 +1,7 @@
 ---
-title: "Dplyr - Part I"
-author: 
-  - "Colin Walder"
-date: "11.09.2020"
+title: "dplyr - Part I"
+author: "Author"
+date: "Date"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -35,7 +34,7 @@ library(kableExtra)
 
 --
 
-- `select()`: picks variables based on their names.
+- `select()`: extracts columns from your dataset
 
 --
 
@@ -53,6 +52,8 @@ library(kableExtra)
 
 ## Dplyr - A Grammar of Data Manipulation
 
+--
+
 - Grammar in this context means a framework which follows a (layered) approach to manipulate and transform your data in a structured manner (adapted from [this post](https://towardsdatascience.com/a-comprehensive-guide-to-the-grammar-of-graphics-for-effective-visualization-of-multi-dimensional-1f92b4ed4149))
 
 --
@@ -61,23 +62,19 @@ library(kableExtra)
 
 --
 
+- `select()`: extracts columns from your dataset
+
+--
+
 - `mutate()`: adds new variables that are functions of existing variables
 
 --
 
-- `select()`: picks variables based on their names.
+- `filter()`: picks cases based on their values
 
 --
 
-- `filter()`: picks cases based on their values.
-
---
-
-- `summarise()`: reduces multiple values down to a single summary.
-
---
-
-- `arrange()`: changes the ordering of the rows.
+- ...
 
 ---
 
@@ -139,7 +136,7 @@ penguins %>%
 
 ```{r}
 penguins %>% 
-select(-c(year, sex, species)) %>% 
+  select(-body_mass_g) %>% #<<
   head(n = 1) %>% 
   kable() %>% kable_styling(font_size = 10)
 ```
@@ -148,15 +145,18 @@ select(-c(year, sex, species)) %>%
 
 ```{r}
 penguins %>% 
-  select(-body_mass_g) %>% 
+select(-c(year, sex, species)) %>% #<<
   head(n = 1) %>% 
   kable() %>% kable_styling(font_size = 10)
 ```
 
---
+---
 
+class: center, middle
 
-### Questions?
+<h3>
+Questions?
+</h3>
 
 ---
 
@@ -168,7 +168,7 @@ penguins %>%
 
 ```{r}
 penguins %>% 
-  select(starts_with("bill")) %>% 
+  select(starts_with("bill")) %>% #<<
   head(n = 2) %>% 
   kable()
 ```
@@ -179,7 +179,7 @@ penguins %>%
 
 ```{r}
 penguins %>% 
-  select(ends_with("mm")) %>% 
+  select(ends_with("mm")) %>% #<<
   head(n = 2) %>% 
   kable() %>% kable_styling(font_size = 12)
 ```
@@ -190,18 +190,18 @@ penguins %>%
 
 ```{r}
 penguins %>% 
-  select(contains("length")) %>% 
+  select(contains("length")) %>% #<<
   head(n = 2) %>% 
   kable() %>% kable_styling(font_size = 12)
 ```
 
 ---
 
-- `where()`: Selects the variables for which a function returns `TRUE.`
+- `where()`: Selects the variables for which a function returns `TRUE`
 
 ```{r}
 penguins %>% 
-  select(where(is.factor)) %>% 
+  select(where(is.factor)) %>% #<<
   head(n = 2) %>% 
   kable() %>% kable_styling(font_size = 12)
 ```
@@ -210,12 +210,11 @@ penguins %>%
 
 ```{r}
 penguins %>% 
-  select(where(is.numeric)) %>% 
+  select(where(is.numeric)) %>% #<<
   head(n = 2) %>% 
   kable() %>% kable_styling(font_size = 12)
 ```
 
---
 ---
 
 ## Combinations are possible
@@ -277,7 +276,11 @@ penguins %>%
 
 ---
 
-### Pro tip:
+### Pro tip
+
+--
+
+- `select()` can also rename variables!
 
 ```{r}
 penguins %>% 
@@ -295,7 +298,7 @@ penguins %>%
 
 ```{r}
 penguins %>% 
-  relocate(year) %>% 
+  relocate(year) %>% #<<
   head(n = 1) %>% 
   kable() %>% kable_styling(font_size = 12)
 ```
@@ -306,16 +309,18 @@ penguins %>%
 
 ```{r}
 penguins %>% 
-  relocate(sex, .after = species) %>% 
+  relocate(sex, .after = species) %>% #<<
   head(n = 1) %>% 
   kable() %>% kable_styling(font_size = 12)
 ```
+
+--
 
 - `island` before `species`
 
 ```{r}
 penguins %>% 
-  relocate(island, .before = species) %>% 
+  relocate(island, .before = species) %>% #<<
   head(n = 1) %>% 
   kable() %>% kable_styling(font_size = 12)
 ```
@@ -330,23 +335,15 @@ Questions?
 
 ---
 
-class: center, middle
-
-<h3>
-Time to exercise!
-</h3>
-
----
-
 ## Recap & outlook
 
 --
 
-- Introduced to `dpylr`
+- Introduced to `dplyr`
 
 --
 
-- `select()`: picks variables based on their names.
+- `select()`: picks variables based on their names
 
 --
 
@@ -358,4 +355,17 @@ Time to exercise!
 
 --
 
-- Next up: `group_by()`, `summarise()`, `arrange()`
+- Next up: `filter()`, `group_by()` and `summarise()`
+
+---
+
+class: center, middle
+
+<h3>
+Time to exercise!
+</h3>
+
+```{r, include=FALSE}
+pagedown::chrome_print("dplyr_part1.html")
+```
+

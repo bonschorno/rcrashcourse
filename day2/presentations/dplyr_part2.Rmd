@@ -1,8 +1,7 @@
 ---
-title: "Dplyr - Part II"
-author: 
-  - "Colin Walder"
-date: "11.09.2020"
+title: "dplyr - Part II"
+author: "Author"
+date: "Date"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -47,10 +46,6 @@ library(kableExtra)
 
 --
 
-- `arrange()`: arrange rows by column values
-
---
-
 - Exercises
 
 ---
@@ -61,15 +56,21 @@ library(kableExtra)
 
 - The following expressions are mostly used:
 
-  - `==`, `>`, ...
+  - `==`, `>`, etc.
 
-  - `&` (and), `|` (or), `!` (is not), `xor()` (elementwise exclusive OR)
+  - `&` *(and)*
+  
+  - `|` *(or)*
+  
+  - `!` *(is not)*
+  
+  - `xor()` *(elementwise exclusive OR)*
   
   - `is.na()`
   
-  -  `between()` (shortcut for `x >= left` & `x <= right`)
+  -  `between()` *(shortcut for `x >= left` & `x <= right`)*
   
---
+---
 
 #### Quantitative variables
 
@@ -151,35 +152,39 @@ penguins %>%
 
 --
 
-- So far, we know how to ...
+- So far, we know how to...
 
 --
 
-- ... subset columns with `select()`
+- subset columns with `select()`
 
 --
 
-- ... modify existing and create new columns with `mutate()`
+- modify existing and create new columns with `mutate()`
 
 --
 
-- ... rename columns with `rename()`
+- rename columns with `rename()`
 
 --
 
-- ... change the order of columns  with `relocate()`
+- change the order of columns  with `relocate()`
 
 --
 
-- ... subset rows with `filter()`
+- subset rows with `filter()`
 
 --
 
 - **Questions?**
 
---
+---
 
-- How do we work with different groups in our datasets?
+class: center, middle
+
+<h3>
+How do we work with different groups in our datasets?
+</h3>
 
 ---
 
@@ -321,11 +326,7 @@ Questions?
 
 --
 
-- Introduced to `dpylr`
-
---
-
-- `mutate()`: adds new variables that are functions of existing variables
+- Introduced to `dplyr`
 
 --
 
@@ -333,16 +334,32 @@ Questions?
 
 --
 
+- `mutate()`: adds new variables that are functions of existing variables
+
+--
+
 - `filter()`: picks cases based on their values.
 
 --
 
-- `summarise()`: reduces multiple values down to a single summary.
+- `group_by`: allows operations across groups
 
 --
 
-- `arrange()`: changes the ordering of the rows.
+- `summarise()`: reduces multiple values down to a single summary
 
 --
 
 - Next up: Data visualisation with `ggplot2` and applying everything in a final exercise
+
+---
+
+class: center, middle
+
+<h3>
+Time to exercise!
+</h3>
+
+```{r, include=FALSE}
+pagedown::chrome_print("dplyr_part2.html")
+```

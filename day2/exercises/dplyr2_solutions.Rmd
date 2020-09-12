@@ -1,0 +1,154 @@
+---
+title: "dpylr (Part Two) - Solutions"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, message = FALSE, warning = FALSE) #rendering sharp plots / not showing messages
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+```
+
+## Exercises
+
+### `mpg`
+
+- Let’s start with the `mpg` dataset again. How far would one get with the Chevrolet Corvette (automatic transmission) built in 2008 on the highway with one gallon?
+
+```{r, echo=FALSE}
+library(tidyverse)
+
+cars <- mpg
+
+cars %>% 
+  filter(model == "corvette",
+         trans == "auto(s6)",
+         year == 2008) %>% 
+  pull(hwy)
+```
+
+---
+
+- Is there any difference between the different models of the Subaru Forester AWD built in 1999?
+
+```{r}
+cars %>% 
+  filter(model == "forester awd" & year == 1999) %>% 
+  select(hwy)
+```
+
+
+- Calculate the difference again between the reach in the city and the reach on the highway. How many observations in the dataset do show a difference of more than 5 miles?
+
+```{r}
+cars %>% 
+  mutate(difference = abs(cty-hwy)) %>% 
+  filter(difference > 5) %>% 
+  nrow()
+```
+
+---
+
+- Let’s look at Toyotas only. More precisely, we are interested in the models built after 2000. How many models could drive more than 20 miles in the city with one gallon only?
+
+```{r}
+cars %>% 
+  filter(manufacturer == "toyota",
+         year > 2000,
+         cty > 20) %>% 
+  distinct(model)
+```
+
+---
+
+- How many car brands produce models that fall under the category “subcompact”?
+
+```{r}
+cars %>% 
+  filter(class == "subcompact") %>% 
+  distinct(manufacturer)
+```
+
+---
+
+- Which car brand has the lowest average engine displacement (in litres) across all their models built in 2008?
+
+```{r}
+cars %>% 
+  filter(year == 2008) %>% 
+  group_by(manufacturer) %>% 
+  summarise(enginedisplacement = mean(displ, na.rm = TRUE)) %>% 
+  filter(enginedisplacement == min(enginedisplacement))
+```
+
+---
+
+- Which SUVs of which car brand get you the farthest on the highway on average? 
+
+```{r}
+cars %>% 
+  filter(class == "suv") %>% 
+  group_by(manufacturer) %>% 
+  summarise(hwydistance = mean(hwy, na.rm = TRUE)) %>% 
+  filter(hwydistance == max(hwydistance))
+```
+
+---
+
+### `starwars`
+
+- Back to Starwars. Do female, male or characters with no sex (you can ignore the other categories) have the highest age on average?
+
+```{r}
+starwars %>% 
+  group_by(sex) %>% 
+  summarise(age = mean(birth_year, na.rm = TRUE)) %>% 
+  filter(sex != "hermaphroditic" & !is.na(sex))
+```
+
+---
+
+- Which eye colour is associated with the lowest average height?
+
+```{r}
+starwars %>% 
+  group_by(eye_color) %>% 
+  summarise(height = mean(height, na.rm = TRUE)) %>% 
+  filter(height == min(height, na.rm = TRUE))
+```
+
+---
+
+- How many characters weigh either over 100kg or are Droids?
+
+```{r}
+starwars %>% 
+  filter(xor(mass > 100, species == "Droid")) %>% 
+  nrow()
+```
+
+
+- How many homeworlds are listed in the dataset?
+
+```{r}
+starwars %>% 
+distinct(homeworld) %>% 
+  filter(!is.na(homeworld)) %>% 
+  nrow()
+```
+
+```{r, include=FALSE}
+pagedown::chrome_print("dplyr2_solutions.html")
+```
+
+

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Dplyr - Part I</title>
+    <title>dplyr - Part I</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Colin Walder" />
-    <script src="dpylr_part1_files/kePrint/kePrint.js"></script>
+    <meta name="author" content="Author" />
+    <script src="dplyr_part1_files/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Dplyr - Part I
-### Colin Walder
-### 11.09.2020
+# dplyr - Part I
+### Author
+### Date
 
 ---
 
@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 
 --
 
-- `select()`: picks variables based on their names.
+- `select()`: extracts columns from your dataset
 
 --
 
@@ -48,6 +48,8 @@ class: center, middle, inverse, title-slide
 
 ## Dplyr - A Grammar of Data Manipulation
 
+--
+
 - Grammar in this context means a framework which follows a (layered) approach to manipulate and transform your data in a structured manner (adapted from [this post](https://towardsdatascience.com/a-comprehensive-guide-to-the-grammar-of-graphics-for-effective-visualization-of-multi-dimensional-1f92b4ed4149))
 
 --
@@ -56,23 +58,19 @@ class: center, middle, inverse, title-slide
 
 --
 
+- `select()`: extracts columns from your dataset
+
+--
+
 - `mutate()`: adds new variables that are functions of existing variables
 
 --
 
-- `select()`: picks variables based on their names.
+- `filter()`: picks cases based on their values
 
 --
 
-- `filter()`: picks cases based on their values.
-
---
-
-- `summarise()`: reduces multiple values down to a single summary.
-
---
-
-- `arrange()`: changes the ordering of the rows.
+- ...
 
 ---
 
@@ -303,38 +301,7 @@ penguins %&gt;%
 
 ```r
 penguins %&gt;% 
-select(-c(year, sex, species)) %&gt;% 
-  head(n = 1) %&gt;% 
-  kable() %&gt;% kable_styling(font_size = 10)
-```
-
-&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;"&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; island &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bill_length_mm &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bill_depth_mm &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; flipper_length_mm &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; body_mass_g &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 39.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 18.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 181 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3750 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
---
-
-
-```r
-penguins %&gt;% 
-  select(-body_mass_g) %&gt;% 
+* select(-body_mass_g) %&gt;%
   head(n = 1) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 10)
 ```
@@ -367,7 +334,41 @@ penguins %&gt;%
 --
 
 
-### Questions?
+```r
+penguins %&gt;% 
+*select(-c(year, sex, species)) %&gt;%
+  head(n = 1) %&gt;% 
+  kable() %&gt;% kable_styling(font_size = 10)
+```
+
+&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; island &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bill_length_mm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bill_depth_mm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; flipper_length_mm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; body_mass_g &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 181 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3750 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: center, middle
+
+&lt;h3&gt;
+Questions?
+&lt;/h3&gt;
 
 ---
 
@@ -380,7 +381,7 @@ penguins %&gt;%
 
 ```r
 penguins %&gt;% 
-  select(starts_with("bill")) %&gt;% 
+* select(starts_with("bill")) %&gt;%
   head(n = 2) %&gt;% 
   kable()
 ```
@@ -411,7 +412,7 @@ penguins %&gt;%
 
 ```r
 penguins %&gt;% 
-  select(ends_with("mm")) %&gt;% 
+* select(ends_with("mm")) %&gt;%
   head(n = 2) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 12)
 ```
@@ -445,7 +446,7 @@ penguins %&gt;%
 
 ```r
 penguins %&gt;% 
-  select(contains("length")) %&gt;% 
+* select(contains("length")) %&gt;%
   head(n = 2) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 12)
 ```
@@ -471,12 +472,12 @@ penguins %&gt;%
 
 ---
 
-- `where()`: Selects the variables for which a function returns `TRUE.`
+- `where()`: Selects the variables for which a function returns `TRUE`
 
 
 ```r
 penguins %&gt;% 
-  select(where(is.factor)) %&gt;% 
+* select(where(is.factor)) %&gt;%
   head(n = 2) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 12)
 ```
@@ -508,7 +509,7 @@ penguins %&gt;%
 
 ```r
 penguins %&gt;% 
-  select(where(is.numeric)) %&gt;% 
+* select(where(is.numeric)) %&gt;%
   head(n = 2) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 12)
 ```
@@ -541,7 +542,6 @@ penguins %&gt;%
 &lt;/tbody&gt;
 &lt;/table&gt;
 
---
 ---
 
 ## Combinations are possible
@@ -751,7 +751,11 @@ penguins %&gt;%
 
 ---
 
-### Pro tip:
+### Pro tip
+
+--
+
+- `select()` can also rename variables!
 
 
 ```r
@@ -794,7 +798,7 @@ penguins %&gt;%
 
 ```r
 penguins %&gt;% 
-  relocate(year) %&gt;% 
+* relocate(year) %&gt;%
   head(n = 1) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 12)
 ```
@@ -833,7 +837,7 @@ penguins %&gt;%
 
 ```r
 penguins %&gt;% 
-  relocate(sex, .after = species) %&gt;% 
+* relocate(sex, .after = species) %&gt;%
   head(n = 1) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 12)
 ```
@@ -865,12 +869,14 @@ penguins %&gt;%
 &lt;/tbody&gt;
 &lt;/table&gt;
 
+--
+
 - `island` before `species`
 
 
 ```r
 penguins %&gt;% 
-  relocate(island, .before = species) %&gt;% 
+* relocate(island, .before = species) %&gt;%
   head(n = 1) %&gt;% 
   kable() %&gt;% kable_styling(font_size = 12)
 ```
@@ -912,23 +918,15 @@ Questions?
 
 ---
 
-class: center, middle
-
-&lt;h3&gt;
-Time to exercise!
-&lt;/h3&gt;
-
----
-
 ## Recap &amp; outlook
 
 --
 
-- Introduced to `dpylr`
+- Introduced to `dplyr`
 
 --
 
-- `select()`: picks variables based on their names.
+- `select()`: picks variables based on their names
 
 --
 
@@ -940,7 +938,15 @@ Time to exercise!
 
 --
 
-- Next up: `group_by()`, `summarise()`, `arrange()`
+- Next up: `filter()`, `group_by()` and `summarise()`
+
+---
+
+class: center, middle
+
+&lt;h3&gt;
+Time to exercise!
+&lt;/h3&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

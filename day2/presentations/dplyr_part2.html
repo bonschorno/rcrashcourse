@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Dplyr - Part II</title>
+    <title>dplyr - Part II</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Colin Walder" />
-    <script src="dpylr_part2_files/kePrint/kePrint.js"></script>
+    <meta name="author" content="Author" />
+    <script src="dplyr_part2_files/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Dplyr - Part II
-### Colin Walder
-### 11.09.2020
+# dplyr - Part II
+### Author
+### Date
 
 ---
 
@@ -42,10 +42,6 @@ class: center, middle, inverse, title-slide
 
 --
 
-- `arrange()`: arrange rows by column values
-
---
-
 - Exercises
 
 ---
@@ -56,15 +52,21 @@ class: center, middle, inverse, title-slide
 
 - The following expressions are mostly used:
 
-  - `==`, `&gt;`, ...
+  - `==`, `&gt;`, etc.
 
-  - `&amp;` (and), `|` (or), `!` (is not), `xor()` (elementwise exclusive OR)
+  - `&amp;` *(and)*
+  
+  - `|` *(or)*
+  
+  - `!` *(is not)*
+  
+  - `xor()` *(elementwise exclusive OR)*
   
   - `is.na()`
   
-  -  `between()` (shortcut for `x &gt;= left` &amp; `x &lt;= right`)
+  -  `between()` *(shortcut for `x &gt;= left` &amp; `x &lt;= right`)*
   
---
+---
 
 #### Quantitative variables
 
@@ -412,35 +414,39 @@ penguins %&gt;%
 
 --
 
-- So far, we know how to ...
+- So far, we know how to...
 
 --
 
-- ... subset columns with `select()`
+- subset columns with `select()`
 
 --
 
-- ... modify existing and create new columns with `mutate()`
+- modify existing and create new columns with `mutate()`
 
 --
 
-- ... rename columns with `rename()`
+- rename columns with `rename()`
 
 --
 
-- ... change the order of columns  with `relocate()`
+- change the order of columns  with `relocate()`
 
 --
 
-- ... subset rows with `filter()`
+- subset rows with `filter()`
 
 --
 
 - **Questions?**
 
---
+---
 
-- How do we work with different groups in our datasets?
+class: center, middle
+
+&lt;h3&gt;
+How do we work with different groups in our datasets?
+&lt;/h3&gt;
 
 ---
 
@@ -782,11 +788,7 @@ Questions?
 
 --
 
-- Introduced to `dpylr`
-
---
-
-- `mutate()`: adds new variables that are functions of existing variables
+- Introduced to `dplyr`
 
 --
 
@@ -794,19 +796,31 @@ Questions?
 
 --
 
+- `mutate()`: adds new variables that are functions of existing variables
+
+--
+
 - `filter()`: picks cases based on their values.
 
 --
 
-- `summarise()`: reduces multiple values down to a single summary.
+- `group_by`: allows operations across groups
 
 --
 
-- `arrange()`: changes the ordering of the rows.
+- `summarise()`: reduces multiple values down to a single summary
 
 --
 
 - Next up: Data visualisation with `ggplot2` and applying everything in a final exercise
+
+---
+
+class: center, middle
+
+&lt;h3&gt;
+Time to exercise!
+&lt;/h3&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
