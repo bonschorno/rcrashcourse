@@ -3,7 +3,6 @@ title: "Final exercise"
 author: 
   - "Felix Zaussinger"
 date: "10.09.2020"
-subtitle: "(Based on an ETH course assignment created by Liam Beiser-McGreith)"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -58,6 +57,8 @@ What is the **causal effect** of EDR upon voter turnout in the US, and is our es
 <img src="figures/cartoon-causation.png" width="400" />
 
 [*(Source: Andertoons)*](https://andertoons.com/science/cartoon/7252/correlation-does-not-imply-causation-we-know-it-was-brian)
+
+**Acknowledgements:** this exercise is based on an ETH course assignment created by *Liam Beiser-McGreith*.
 ]
 
 ---
