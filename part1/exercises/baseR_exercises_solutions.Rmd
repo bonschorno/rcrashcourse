@@ -1,11 +1,62 @@
+---
+title: "2020 R Bootcamp exercises and solutions Part 1"
+author: "J.S. Schuur"
+date: "07.03.2020"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    df_print: paged
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+# Loading packages and relevant data
+rm(list=ls())
+options(digits=2)
+
+#install.packages("stargazer")
+
+library(broom)
+library(estimatr)
+library(gsynth)
+library(haven)
+library(MASS)
+library(texreg)
+library(tidyverse)
+library(dplyr)
+library(modelr)
+library(estimatr)
+library(margins)
+library(corrplot)
+library(ggplot2)
+library(lmtest)
+library(haven)
+library(stargazer)
+library(palmerpenguins)
+
+# set working directory
+# setwd("~/Desktop/Student representation ISTP/rbootcamp/part1/")
+
+```
+
+```{r}
 # 2020 R Bootcamp Part 1 
 # Solutions to the coding that was presented in the introduction to Base R
 
 # J.S.Schuur (08.09.2020)
 
-setwd("~/Desktop/Student representation ISTP/rbootcamp/part1/")
-library(tidyverse)
-library(ggplot2)
+# Set-up
+
+#setwd("~/Desktop/Student representation ISTP/rbootcamp/part1/") # example
+
+# Installing packages and libraries, uncomment for use
+
+#install.packages(c("palmerpenguins", "tidyverse", "ggplot2"))
+#library(palmerpenguins)
+#library(tidyverse)
+#library(ggplot2)
 
 
 # Variables and R as calculator
@@ -57,11 +108,9 @@ array1[1,,1] # ... 1st row, all columns, 1st matrix
 
 # Packages and libraries
 
-install.packages(c("palmerpenguins", 
-                   "tidyverse", 
-                   "ggplot2"))
+# install.packages(c("palmerpenguins", "tidyverse", "ggplot2"))
 
-library(palmerpenguins)
+# library(palmerpenguins)
 
 # Base R plotting
 
@@ -90,13 +139,13 @@ boxplot(bill_length_mm ~ species, penguins,
 
 # Writing scripts
 
-getwd() # tells you in which working directory you currently operate
-setwd() # lets you set your desired working directory
+#getwd() # tells you in which working directory you currently operate
+#setwd() # lets you set your desired working directory
 
 
 # If-else statements
 
-x
+x # we use the previously defined vector x
 
 # creating multiple condition statement
 if(10 %in% x) {
@@ -115,4 +164,7 @@ x
 
 ifelse(x >= 6, "TRUE", "FALSE")
 
+
+
+```
 

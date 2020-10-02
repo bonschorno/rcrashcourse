@@ -24,17 +24,17 @@ class: center, middle, inverse, title-slide
 ---
 # Previous R experience
 
-&lt;img src="Introduction_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+&lt;img src="baseR_introduction_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
 
 ---
 # Experience with other languages
 
-&lt;img src="Introduction_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+&lt;img src="baseR_introduction_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
 
 ---
 # R Bootcamp expectations
 .center[
-![an image](expectations.jpeg)
+![an image](figures/expectations.jpeg)
 ]
 
 ---
@@ -79,7 +79,7 @@ class: center, middle, inverse, title-slide
 ]
 
 .pull-right[
-![an image](plotpenguins.png)
+![an image](figures/plotpenguins.png)
 ]
 
 --
@@ -208,7 +208,7 @@ l1 &lt;- list(x, A, "hello", TRUE, FALSE) # elements of different types
   - handle numeric, factor, or character data
   - each column contains same number of entries
   
-![an image](shortdfpenguins.png)
+![an image](figures/shortdfpenguins.png)
 ---
 # Indexing
 
@@ -285,7 +285,7 @@ library(palmerpenguins)
 ]
 
 .pull-right[
-![an image](lter_penguins.png)
+![an image](figures/lter_penguins.png)
 “Artwork by @allison_horst”
 ]
   + you cannot input a number of libraries at the same time
@@ -301,12 +301,12 @@ y &lt;- c(1,5,2,7,9,8,10,4,1)
 plot(x, y) # plotting y vs x
 ```
 
-&lt;img src="Introduction_files/figure-html/unnamed-chunk-11-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="baseR_introduction_files/figure-html/unnamed-chunk-11-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 # Base R plotting
 .center[
-![an image](culmen_depth.png)
+![an image](figures/culmen_depth.png)
 ]
 "Artwork by @allison_horst"
 
@@ -321,7 +321,7 @@ hist(penguins$bill_length_mm,
      xlab = "bill length [mm]")
 ```
 
-&lt;img src="Introduction_files/figure-html/unnamed-chunk-12-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="baseR_introduction_files/figure-html/unnamed-chunk-12-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 ---
 # Base R plotting
@@ -334,7 +334,7 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm,
      xlab = "bill length [mm]", ylab = "bill depth [mm]")
 ```
 
-&lt;img src="Introduction_files/figure-html/unnamed-chunk-13-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="baseR_introduction_files/figure-html/unnamed-chunk-13-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 ---
 # Base R plotting
@@ -347,7 +347,7 @@ boxplot(bill_length_mm ~ species, penguins,
         xlab = "bill length [mm]", ylab = "bill depth [mm]")
 ```
 
-&lt;img src="Introduction_files/figure-html/unnamed-chunk-14-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="baseR_introduction_files/figure-html/unnamed-chunk-14-1.png" width="288" style="display: block; margin: auto;" /&gt;
 - For more base R plotting, 
 see: https://bookdown.org/rdpeng/exdata/the-base-plotting-system-1.html
 

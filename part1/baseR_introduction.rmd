@@ -28,7 +28,7 @@ library(plotrix)
 library(xaringanthemer)
 style_mono_light(base_color = "#23395b")
 
-intro_full <- read_excel("Umfrage_intro.xlsx")
+intro_full <- read_excel("extra/Umfrage_intro.xlsx")
 intro <- intro_full[-1,]
 
 ```
@@ -77,7 +77,7 @@ intro %>%
 ---
 # R Bootcamp expectations
 .center[
-![an image](expectations.jpeg)
+![an image](figures/expectations.jpeg)
 ]
 
 ---
@@ -122,7 +122,7 @@ intro %>%
 ]
 
 .pull-right[
-![an image](plotpenguins.png)
+![an image](figures/plotpenguins.png)
 ]
 
 --
@@ -242,7 +242,7 @@ l1 <- list(x, A, "hello", TRUE, FALSE) # elements of different types
   - handle numeric, factor, or character data
   - each column contains same number of entries
   
-![an image](shortdfpenguins.png)
+![an image](figures/shortdfpenguins.png)
 ---
 # Indexing
 
@@ -291,7 +291,7 @@ library(palmerpenguins)
 ]
 
 .pull-right[
-![an image](lter_penguins.png)
+![an image](figures/lter_penguins.png)
 “Artwork by @allison_horst”
 ]
   + you cannot input a number of libraries at the same time
@@ -309,7 +309,7 @@ plot(x, y) # plotting y vs x
 ---
 # Base R plotting
 .center[
-![an image](culmen_depth.png)
+![an image](figures/culmen_depth.png)
 ]
 "Artwork by @allison_horst"
 
