@@ -39,6 +39,8 @@ Temporary Items
 
 # Session Data files
 .RData
+.Rproj
+.Rhistory
 
 # User-specific files
 .Ruserdata
