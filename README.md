@@ -4,7 +4,7 @@ This repository contains presentations, exercises, and the corresponding solutio
 
 The course is divided into three parts:
 
-| **Part 1 : Introduction to Base R**                                          |
+| **[Part 1](https://github.com/bonschorno/rcrashcourse/tree/master/part1) : Introduction to Base R**                                          								|
 |------------------------------------------------------------------------------|
 | Motivation – the role of R in the scope of the study programs                |
 | R – a language for statistical computing and data analysis                   |
