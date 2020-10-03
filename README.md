@@ -1,6 +1,6 @@
 ## Hi and welcome to the D-GESS Crashcourse with R! 
 
-This repository contains presentations, exercises, and the corresponding solutions to make programming with R easier for people with no previous knowledge. Initially, the presentations were prepared for a 1.5-day boot camp for incoming students of the Master in Comparative and International Studies (see [MACIS](https://macis.gess.ethz.ch)) and the Master in Science, Technology, and Policy (see [MSc ETH STP](https://istp.ethz.ch/education/master.html)), respectively. In the spirit of reproducibility and the open-source movement, we decided to make this repository publicly available to all those who want to acquire basic knowledge of R themselves or teach it to others as instructors.
+This repository contains presentations, exercises, and the corresponding solutions to make programming with R easier for people with no previous knowledge. Initially, the presentations were prepared for a 1.5-day boot camp for incoming students of the Master in Comparative and International Studies (see [MACIS](https://macis.gess.ethz.ch)) and the Master in Science, Technology, and Policy (see [MSc ETH STP](https://istp.ethz.ch/education/master.html)), respectively. In the spirit of reproducibility and the open-source movement, we decided to make this repository publicly available to all those who want to acquire basic knowledge of R themselves or teach it to others as instructors. Finally, we have recorded all the presentations to help both students and teachers to familiarise themselves more easily with the contents of the boot camp. The recordings can be found by clicking [here](https://www.polybox.ethz.ch/index.php/s/3f6KpITcyRDxaoy).
 
 The course is divided into three parts:
 
@@ -35,10 +35,10 @@ According to the three parts, the original timetable foresees one half-day block
 
 All presentations and exercises were created in our free time, and we have not received any financial or other support in return. In the open-source movement spirit, we don't want to charge anything for these resources, but if you use them, we would like to ask you to give us the credits for them. 
 
-For further information, you can contact the following e-mail address: colin.walder@ir.gess.ethz.ch
+For further information, please contact the following e-mail address: colin.walder@ir.gess.ethz.ch
 
 Best, 
 
-Mirjam, Felix, Johann, and Colin
+Mirjam, [Felix](https://github.com/derpyninja), [Johann](https://github.com/josebastiaan), and [Colin](https://github.com/bonschorno)
 
 *Student Representatives of MACIS and STP*
