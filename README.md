@@ -1,6 +1,6 @@
 ## Hi and welcome to the D-GESS Crashcourse with R! 
 
-This repository contains presentations, exercises, and the corresponding solutions to make programming with R easier for people with no previous knowledge. Initially, the presentations were prepared for a 1.5-day boot camp for incoming students of the Master in Comparative and International Studies (see [MACIS](https://macis.gess.ethz.ch)) and the Master in Science, Technology, and Policy (see [MSc ETH STP](https://istp.ethz.ch/education/master.html)), respectively. In the spirit of reproducibility and the open-source movement, we decided to make this repository publicly available to all those who want to acquire basic knowledge of R themselves or teach it to others as instructors. Finally, we have recorded all the presentations to help both students and teachers to familiarise themselves more easily with the contents of the boot camp. The recordings can be found by clicking [here](https://www.polybox.ethz.ch/index.php/s/3f6KpITcyRDxaoy).
+This repository contains presentations, exercises, and the corresponding solutions to make programming with R easier for people with no previous knowledge. Initially, the presentations were prepared for a 1.5-day boot camp for incoming students of the Master in Comparative and International Studies (see [MACIS](https://macis.gess.ethz.ch)) and the Master in Science, Technology, and Policy (see [MSc ETH STP](https://istp.ethz.ch/education/master.html)), respectively. In the spirit of reproducibility and the open-source movement, we decided to make this repository publicly available to all those who want to acquire basic knowledge of R themselves or teach it to others as instructors. Finally, we have recorded all the presentations to help both students and teachers to familiarise themselves more easily with the contents of the boot camp. The recordings can be found by clicking [here](https://www.polybox.ethz.ch/index.php/s/3f6KpITcyRDxaoy?path=%2Frecordings).
 
 The course is divided into three parts:
 
@@ -16,7 +16,7 @@ The course is divided into three parts:
 
 <br>
 
-| **Part 2 : Introduction to the Tidyverse and `dplyr`** |   
+| **[Part 2](https://github.com/bonschorno/rcrashcourse/tree/master/part2) : Introduction to the Tidyverse and `dplyr`** 							  |   
 |------------------------------------------------------- |
 | Tidyverse – welcome to the tidy philosophy of R        |
 | Tidyverse vs Base-R – two complementing approaches     |
@@ -25,7 +25,7 @@ The course is divided into three parts:
 
 <br>
 
-| **Part 3 : Introduction to `ggplot2` and final exercise** |
+| **[Part 3](https://github.com/bonschorno/rcrashcourse/tree/master/part3) : Introduction to `ggplot2` and final exercise** 							  |
 |-----------------------------------------------------------|
 | `ggplot2` - modern data visualisation in R                |
 | Final exercise                                            |
