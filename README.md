@@ -39,6 +39,6 @@ For further information, please contact the following e-mail address: colin.wald
 
 Best, 
 
-[Mirjam] (https://www.linkedin.com/in/mirjam-grünholz-01427a1b3), [Felix](https://github.com/derpyninja), [Johann](https://github.com/josebastiaan), and [Colin](https://github.com/bonschorno)
+[Mirjam](https://www.linkedin.com/in/mirjam-grünholz-01427a1b3), [Felix](https://github.com/derpyninja), [Johann](https://github.com/josebastiaan), and [Colin](https://github.com/bonschorno)
 
 *Student Representatives of MACIS and STP*
